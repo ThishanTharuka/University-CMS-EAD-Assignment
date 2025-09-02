@@ -1,1 +1,105 @@
-<p>enrollment-form works!</p>
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Enrollment Grade' : 'New Enrollment' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Student Selection -->
+    <mat-form-field appearance="outline" class="full-width" [style.display]="isEditMode ? 'none' : 'block'">
+      <mat-label>Select Student</mat-label>
+      <mat-select formControlName="studentId" placeholder="Choose a student">
+        <mat-option value="">Select Student</mat-option>
+        <mat-option *ngFor="let student of students" [value]="student.studentId">
+          <div class="student-option">
+            <mat-icon>person</mat-icon>
+            <span>{{ student.firstName }} {{ student.lastName }}</span>
+            <small>({{ student.studentId }})</small>
+          </div>
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="enrollmentForm.get('studentId')?.touched && enrollmentForm.get('studentId')?.errors">
+        Please select a student
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Course Selection -->
+    <mat-form-field appearance="outline" class="full-width" [style.display]="isEditMode ? 'none' : 'block'">
+      <mat-label>Select Course</mat-label>
+      <mat-select formControlName="courseCode" placeholder="Choose a course">
+        <mat-option value="">Select Course</mat-option>
+        <mat-option *ngFor="let course of courses" [value]="course.code">
+          <div class="course-option">
+            <mat-icon>school</mat-icon>
+            <span>{{ course.title }}</span>
+            <mat-chip class="course-code-chip">{{ course.code }}</mat-chip>
+          </div>
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="enrollmentForm.get('courseCode')?.touched && enrollmentForm.get('courseCode')?.errors">
+        Please select a course
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Semester and Academic Year Row -->
+    <div class="form-row" [style.display]="isEditMode ? 'none' : 'flex'">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Semester</mat-label>
+        <mat-select formControlName="semester">
+          <mat-option value="Spring 2024">Spring 2024</mat-option>
+          <mat-option value="Summer 2024">Summer 2024</mat-option>
+          <mat-option value="Fall 2024">Fall 2024</mat-option>
+          <mat-option value="Winter 2024">Winter 2024</mat-option>
+        </mat-select>
+        <mat-error *ngIf="enrollmentForm.get('semester')?.touched && enrollmentForm.get('semester')?.errors">
+          Please select a semester
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Academic Year</mat-label>
+        <mat-select formControlName="academicYear">
+          <mat-option value="2023">2023</mat-option>
+          <mat-option value="2024">2024</mat-option>
+          <mat-option value="2025">2025</mat-option>
+        </mat-select>
+        <mat-error *ngIf="enrollmentForm.get('academicYear')?.touched && enrollmentForm.get('academicYear')?.errors">
+          Please select an academic year
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Grade (Always visible, primary field for edit mode) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ isEditMode ? 'Update Grade' : 'Grade (Optional)' }}</mat-label>
+      <mat-select formControlName="grade">
+        <mat-option value="">No Grade Yet</mat-option>
+        <mat-option value="A+">A+ (90-100%)</mat-option>
+        <mat-option value="A">A (85-89%)</mat-option>
+        <mat-option value="A-">A- (80-84%)</mat-option>
+        <mat-option value="B+">B+ (75-79%)</mat-option>
+        <mat-option value="B">B (70-74%)</mat-option>
+        <mat-option value="B-">B- (65-69%)</mat-option>
+        <mat-option value="C+">C+ (60-64%)</mat-option>
+        <mat-option value="C">C (55-59%)</mat-option>
+        <mat-option value="C-">C- (50-54%)</mat-option>
+        <mat-option value="D">D (40-49%)</mat-option>
+        <mat-option value="F">F (Below 40%)</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting">
+    <mat-icon>cancel</mat-icon>
+    Cancel
+  </button>
+  <button mat-raised-button color="primary" 
+          (click)="onSubmit()" 
+          [disabled]="!enrollmentForm.valid || isSubmitting">
+    <mat-icon *ngIf="!isSubmitting">{{ isEditMode ? 'update' : 'add' }}</mat-icon>
+    <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+    <span *ngIf="isSubmitting">{{ isEditMode ? 'Updating...' : 'Creating...' }}</span>
+    <span *ngIf="!isSubmitting">{{ isEditMode ? 'Update Grade' : 'Create Enrollment' }}</span>
+  </button>
+</mat-dialog-actions>

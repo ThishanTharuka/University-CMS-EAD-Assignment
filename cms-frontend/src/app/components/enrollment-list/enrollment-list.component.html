@@ -3,7 +3,7 @@
     <mat-card-header>
       <mat-card-title>Enrollment Management</mat-card-title>
       <div class="header-actions">
-        <button mat-raised-button color="primary">
+        <button mat-raised-button color="primary" (click)="openEnrollmentForm()">
           <mat-icon>add</mat-icon>
           New Enrollment
         </button>
@@ -70,7 +70,7 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let enrollment">
-              <button mat-icon-button color="primary" title="Edit Grade">
+              <button mat-icon-button color="primary" title="Edit Grade" (click)="editEnrollmentGrade(enrollment)">
                 <mat-icon>grade</mat-icon>
               </button>
               <button mat-icon-button color="accent" title="View Details">

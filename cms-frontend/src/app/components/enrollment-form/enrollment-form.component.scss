@@ -1,0 +1,90 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  
+  .half-width {
+    flex: 1;
+  }
+}
+
+.student-option, .course-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  mat-icon {
+    color: var(--mdc-theme-primary);
+    font-size: 18px;
+  }
+  
+  small {
+    color: #666;
+    font-size: 11px;
+  }
+}
+
+.course-code-chip {
+  font-size: 10px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  padding: 0 6px !important;
+  margin-left: auto;
+  background-color: var(--mdc-theme-primary) !important;
+  color: white !important;
+}
+
+mat-dialog-content {
+  min-width: 400px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+mat-dialog-actions {
+  padding: 16px 24px !important;
+  
+  button {
+    margin-left: 8px;
+    
+    mat-icon {
+      margin-right: 4px;
+    }
+    
+    mat-spinner {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Material Design enhancements
+mat-form-field {
+  .mat-mdc-form-field-outline {
+    border-radius: 8px;
+  }
+  
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--mdc-theme-primary);
+      border-width: 2px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  mat-dialog-content {
+    min-width: 300px;
+  }
+}

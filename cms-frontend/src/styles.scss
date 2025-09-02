@@ -1,5 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Professional Material Design color scheme
+:root {
+  // Primary colors (Professional Blue)
+  --mdc-theme-primary: #1976d2;
+  --mdc-theme-on-primary: #ffffff;
+  --mat-primary-50: #e3f2fd;
+  --mat-primary-100: #bbdefb;
+  --mat-primary-200: #90caf9;
+  --mat-primary-300: #64b5f6;
+  --mat-primary-400: #42a5f5;
+  --mat-primary-500: #1976d2;
+  --mat-primary-600: #1565c0;
+  --mat-primary-700: #0d47a1;
+  --mat-primary-800: #0a2e92;
+  --mat-primary-900: #071e7a;
+
+  // Accent colors (Professional Orange)
+  --mdc-theme-secondary: #ff9800;
+  --mdc-theme-on-secondary: #ffffff;
+  --mat-accent-50: #fff3e0;
+  --mat-accent-100: #ffe0b2;
+  --mat-accent-200: #ffcc80;
+  --mat-accent-300: #ffb74d;
+  --mat-accent-400: #ffa726;
+  --mat-accent-500: #ff9800;
+  --mat-accent-600: #fb8c00;
+  --mat-accent-700: #f57c00;
+  --mat-accent-800: #ef6c00;
+  --mat-accent-900: #e65100;
+
+  // Surface and background colors
+  --mdc-theme-surface: #ffffff;
+  --mdc-theme-on-surface: #333333;
+  --mdc-theme-background: #fafafa;
+  --mdc-theme-on-background: #333333;
+  --mdc-theme-error: #f44336;
+  --mdc-theme-on-error: #ffffff;
+
+  // Material Design 3 tokens
+  --mdc-filled-button-container-color: #1976d2;
+  --mdc-filled-button-label-text-color: #ffffff;
+  --mdc-outlined-button-outline-color: #1976d2;
+  --mdc-outlined-button-label-text-color: #1976d2;
+  --mdc-text-button-label-text-color: #1976d2;
+}
+
 // Global styles
 * {
   box-sizing: border-box;
@@ -47,31 +93,71 @@ html, body {
 .p-3 { padding: 24px !important; }
 .p-4 { padding: 32px !important; }
 
-// Enhanced button styles
+// Enhanced Material Design component styles
 .mat-mdc-raised-button {
   font-weight: 500 !important;
   letter-spacing: 0.25px !important;
   text-transform: none !important;
   border-radius: 8px !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.2) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   
-  &:hover {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  &.mat-primary {
+    background-color: var(--mdc-theme-primary) !important;
+    color: var(--mdc-theme-on-primary) !important;
+    
+    &:hover {
+      background-color: #1565c0 !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+    }
+  }
+  
+  &.mat-accent {
+    background-color: var(--mdc-theme-secondary) !important;
+    color: var(--mdc-theme-on-secondary) !important;
+    
+    &:hover {
+      background-color: #f57c00 !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3) !important;
+    }
+  }
+}
+
+.mat-mdc-outlined-button {
+  border-radius: 8px !important;
+  border-width: 1.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.25px !important;
+  text-transform: none !important;
+  
+  &.mat-primary {
+    border-color: var(--mdc-theme-primary) !important;
+    color: var(--mdc-theme-primary) !important;
+    
+    &:hover {
+      background-color: rgba(25, 118, 210, 0.04) !important;
+      border-color: #1565c0 !important;
+    }
   }
 }
 
 .mat-mdc-fab {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2) !important;
   
-  &:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.2) !important;
+  &.mat-primary {
+    background-color: var(--mdc-theme-primary) !important;
+    color: var(--mdc-theme-on-primary) !important;
+    
+    &:hover {
+      background-color: #1565c0 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 16px rgba(25, 118, 210, 0.3) !important;
+    }
   }
 }
 
-// Enhanced card styles
 .mat-mdc-card {
   border-radius: 12px !important;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
@@ -82,9 +168,8 @@ html, body {
   }
 }
 
-// Enhanced form field styles
 .mat-mdc-form-field {
-  .mat-mdc-form-field-outline {
+  .mdc-notched-outline {
     border-radius: 8px !important;
   }
   
@@ -92,43 +177,64 @@ html, body {
     .mdc-notched-outline__leading,
     .mdc-notched-outline__notch,
     .mdc-notched-outline__trailing {
-      border-color: #1976d2 !important;
+      border-color: var(--mdc-theme-primary) !important;
       border-width: 2px !important;
     }
   }
+  
+  .mdc-floating-label--float-above {
+    color: var(--mdc-theme-primary) !important;
+  }
 }
 
-// Enhanced table styles
 .mat-mdc-table {
   border-radius: 8px !important;
   overflow: hidden !important;
   background: white !important;
   
   .mat-mdc-header-row {
-    background: #fafafa !important;
+    background: #f8f9fa !important;
+    
+    .mat-mdc-header-cell {
+      color: #1976d2 !important;
+      font-weight: 600 !important;
+    }
   }
   
   .mat-mdc-row {
     &:hover {
-      background: #f8f9fa !important;
+      background: rgba(25, 118, 210, 0.04) !important;
     }
   }
 }
 
-// Enhanced chip styles
 .mat-mdc-chip {
   border-radius: 16px !important;
   font-weight: 500 !important;
   letter-spacing: 0.25px !important;
+  
+  &.mat-primary {
+    background-color: var(--mdc-theme-primary) !important;
+    color: var(--mdc-theme-on-primary) !important;
+  }
 }
 
-// Enhanced snackbar styles
 .mat-mdc-snack-bar-container {
   border-radius: 8px !important;
   
   .mdc-snackbar__surface {
     border-radius: 8px !important;
   }
+}
+
+.mat-mdc-dialog-container {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+}
+
+.mat-mdc-menu-panel {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
 }
 
 // Loading spinner
@@ -141,7 +247,7 @@ html, body {
 
 // Error states
 .error-message {
-  color: #f44336;
+  color: var(--mdc-theme-error);
   font-size: 12px;
   margin-top: 4px;
 }
