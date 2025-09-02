@@ -1,0 +1,167 @@
+.enrollment-list-container {
+  padding: 20px;
+  
+  mat-card {
+    mat-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      mat-card-title {
+        color: #1976d2;
+        font-weight: 300;
+        font-size: 24px;
+      }
+      
+      .header-actions {
+        button {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+    }
+    
+    mat-card-content {
+      padding-top: 20px;
+      
+      .table-container {
+        overflow-x: auto;
+        
+        .enrollments-table {
+          width: 100%;
+          
+          .student-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            
+            .student-icon {
+              color: #666;
+              font-size: 18px;
+              width: 18px;
+              height: 18px;
+            }
+          }
+          
+          .course-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            
+            .course-name {
+              font-weight: 500;
+            }
+            
+            .course-code {
+              font-size: 12px;
+              color: #666;
+              background-color: #e3f2fd;
+              padding: 2px 6px;
+              border-radius: 4px;
+              display: inline-block;
+              width: fit-content;
+            }
+          }
+          
+          .date-chip {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            font-size: 12px;
+          }
+          
+          .grade-chip {
+            font-weight: bold;
+            font-size: 14px;
+            
+            &.mat-primary {
+              background-color: #4caf50 !important;
+              color: white;
+            }
+            
+            &.mat-accent {
+              background-color: #ff9800 !important;
+              color: white;
+            }
+            
+            &.mat-warn {
+              background-color: #f44336 !important;
+              color: white;
+            }
+          }
+          
+          .no-grade {
+            color: #999;
+            font-style: italic;
+            font-size: 12px;
+          }
+          
+          th {
+            font-weight: 600;
+            color: #333;
+          }
+          
+          td {
+            padding: 12px 16px;
+          }
+          
+          tr:hover {
+            background-color: #f5f5f5;
+          }
+        }
+      }
+      
+      .no-data {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        
+        mat-icon {
+          font-size: 48px;
+          width: 48px;
+          height: 48px;
+          color: #ccc;
+          margin-bottom: 16px;
+        }
+        
+        p {
+          margin: 0;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .enrollment-list-container {
+    padding: 10px;
+    
+    mat-card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      
+      .header-actions {
+        width: 100%;
+        
+        button {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    }
+    
+    .enrollments-table {
+      .course-info {
+        .course-name {
+          font-size: 13px;
+        }
+        
+        .course-code {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

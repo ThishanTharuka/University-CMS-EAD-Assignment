@@ -1,0 +1,60 @@
+mat-dialog-content {
+  min-width: 500px;
+  max-width: 600px;
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 16px;
+    
+    .half-width {
+      flex: 1;
+      margin-bottom: 16px;
+    }
+  }
+  
+  mat-form-field {
+    mat-label {
+      color: #1976d2;
+    }
+    
+    &.mat-focused {
+      .mat-form-field-outline-thick {
+        color: #1976d2;
+      }
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+mat-dialog-actions {
+  padding: 16px 24px;
+  
+  button {
+    margin-left: 8px;
+    
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  mat-dialog-content {
+    min-width: 90vw;
+    max-width: 95vw;
+    
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<div class="app-container">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav class="sidenav" mode="side" opened="true">
+      <div class="nav-header">
+        <h1>{{ title }}</h1>
+        <div class="subtitle">Management System</div>
+      </div>
+      
+      <nav class="nav-list">
+        <div class="nav-item" routerLinkActive="active">
+          <a routerLink="/dashboard">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        
+        <div class="nav-item" routerLinkActive="active">
+          <a routerLink="/courses">
+            <mat-icon>school</mat-icon>
+            <span>Courses</span>
+          </a>
+        </div>
+        
+        <div class="nav-item" routerLinkActive="active">
+          <a routerLink="/students">
+            <mat-icon>people</mat-icon>
+            <span>Students</span>
+          </a>
+        </div>
+        
+        <div class="nav-item" routerLinkActive="active">
+          <a routerLink="/enrollments">
+            <mat-icon>assignment</mat-icon>
+            <span>Enrollments</span>
+          </a>
+        </div>
+      </nav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <mat-toolbar class="main-toolbar">
+        <div class="toolbar-content">
+          <span class="page-title">University Course Management</span>
+          <div class="toolbar-actions">
+            <div class="user-info">
+              <mat-icon>account_circle</mat-icon>
+              <span>Admin User</span>
+            </div>
+          </div>
+        </div>
+      </mat-toolbar>
+      
+      <main class="main-content">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Course' : 'Add New Course' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Course Title -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Course Title</mat-label>
+      <input matInput formControlName="title" placeholder="e.g., Introduction to Computer Science">
+      <mat-error *ngIf="courseForm.get('title')?.touched && courseForm.get('title')?.errors">
+        {{ getErrorMessage('title') }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Course Code -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Course Code</mat-label>
+      <input matInput formControlName="code" placeholder="e.g., CS101" style="text-transform: uppercase;">
+      <mat-error *ngIf="courseForm.get('code')?.touched && courseForm.get('code')?.errors">
+        {{ getErrorMessage('code') }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3" 
+                placeholder="Brief description of the course content and objectives"></textarea>
+      <mat-error *ngIf="courseForm.get('description')?.touched && courseForm.get('description')?.errors">
+        {{ getErrorMessage('description') }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Credits and Instructor Row -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Credits</mat-label>
+        <input matInput type="number" formControlName="credits" min="1" max="6">
+        <mat-error *ngIf="courseForm.get('credits')?.touched && courseForm.get('credits')?.errors">
+          {{ getErrorMessage('credits') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Department</mat-label>
+        <input matInput formControlName="department" placeholder="e.g., Computer Science">
+        <mat-error *ngIf="courseForm.get('department')?.touched && courseForm.get('department')?.errors">
+          {{ getErrorMessage('department') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting">
+    Cancel
+  </button>
+  <button mat-raised-button color="primary" 
+          (click)="onSubmit()" 
+          [disabled]="!courseForm.valid || isSubmitting">
+    <span *ngIf="isSubmitting">{{ isEditMode ? 'Updating...' : 'Creating...' }}</span>
+    <span *ngIf="!isSubmitting">{{ isEditMode ? 'Update' : 'Create' }}</span>
+  </button>
+</mat-dialog-actions>

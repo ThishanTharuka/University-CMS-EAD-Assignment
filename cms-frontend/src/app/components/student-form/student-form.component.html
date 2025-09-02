@@ -1,0 +1,95 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Student' : 'Add New Student' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Student ID -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Student ID</mat-label>
+      <input matInput formControlName="studentId" placeholder="e.g., ST2024001">
+      <mat-error *ngIf="studentForm.get('studentId')?.touched && studentForm.get('studentId')?.errors">
+        {{ getErrorMessage('studentId') }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Name Row -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" placeholder="e.g., John">
+        <mat-error *ngIf="studentForm.get('firstName')?.touched && studentForm.get('firstName')?.errors">
+          {{ getErrorMessage('firstName') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" placeholder="e.g., Doe">
+        <mat-error *ngIf="studentForm.get('lastName')?.touched && studentForm.get('lastName')?.errors">
+          {{ getErrorMessage('lastName') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="e.g., john.doe@university.edu">
+      <mat-error *ngIf="studentForm.get('email')?.touched && studentForm.get('email')?.errors">
+        {{ getErrorMessage('email') }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Phone (Optional)</mat-label>
+      <input matInput formControlName="phone" placeholder="e.g., +1-555-123-4567">
+    </mat-form-field>
+
+    <!-- Department and Year Row -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Department (Optional)</mat-label>
+        <mat-select formControlName="department">
+          <mat-option value="">Select Department</mat-option>
+          <mat-option value="Computer Science">Computer Science</mat-option>
+          <mat-option value="Mathematics">Mathematics</mat-option>
+          <mat-option value="Physics">Physics</mat-option>
+          <mat-option value="Chemistry">Chemistry</mat-option>
+          <mat-option value="Biology">Biology</mat-option>
+          <mat-option value="Engineering">Engineering</mat-option>
+          <mat-option value="Business">Business</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Year of Study (Optional)</mat-label>
+        <mat-select formControlName="yearOfStudy">
+          <mat-option value="">Select Year</mat-option>
+          <mat-option value="1">1st Year</mat-option>
+          <mat-option value="2">2nd Year</mat-option>
+          <mat-option value="3">3rd Year</mat-option>
+          <mat-option value="4">4th Year</mat-option>
+          <mat-option value="5">5th Year</mat-option>
+          <mat-option value="6">6th Year</mat-option>
+        </mat-select>
+        <mat-error *ngIf="studentForm.get('yearOfStudy')?.touched && studentForm.get('yearOfStudy')?.errors">
+          {{ getErrorMessage('yearOfStudy') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting">
+    Cancel
+  </button>
+  <button mat-raised-button color="primary" 
+          (click)="onSubmit()" 
+          [disabled]="!studentForm.valid || isSubmitting">
+    <span *ngIf="isSubmitting">{{ isEditMode ? 'Updating...' : 'Creating...' }}</span>
+    <span *ngIf="!isSubmitting">{{ isEditMode ? 'Update' : 'Create' }}</span>
+  </button>
+</mat-dialog-actions>

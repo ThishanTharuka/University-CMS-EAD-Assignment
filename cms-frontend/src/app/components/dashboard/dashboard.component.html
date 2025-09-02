@@ -1,0 +1,49 @@
+<div class="dashboard-container">
+  <h1>University CMS Dashboard</h1>
+  
+  <mat-grid-list cols="3" rowHeight="200px" gutterSize="20px">
+    
+    <!-- Courses Card -->
+    <mat-grid-tile>
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-icon class="card-icon">school</mat-icon>
+          <mat-card-title>Total Courses</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-number">{{ totalCourses }}</div>
+          <p>Active courses in the system</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <!-- Students Card -->
+    <mat-grid-tile>
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-icon class="card-icon">people</mat-icon>
+          <mat-card-title>Total Students</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-number">{{ totalStudents }}</div>
+          <p>Registered students</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <!-- Enrollments Card -->
+    <mat-grid-tile>
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-icon class="card-icon">assignment</mat-icon>
+          <mat-card-title>Total Enrollments</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-number">{{ totalEnrollments }}</div>
+          <p>Active enrollments</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+</div>
