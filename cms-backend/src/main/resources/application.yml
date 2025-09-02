@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: cms-backend
+  
+  # MySQL Database (Docker container)
+  datasource:
+    url: jdbc:mysql://localhost:3306/university_cms
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # H2 Database for development (disabled - using MySQL)
+  # datasource:
+  #   url: jdbc:h2:mem:university_cms
+  #   username: sa
+  #   password: 
+  #   driver-class-name: org.h2.Driver
+  # h2:
+  #   console:
+  #     enabled: true
+  #     path: /h2-console
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    com.thishan.cms_backend: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
