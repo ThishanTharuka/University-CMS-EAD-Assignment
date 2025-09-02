@@ -14,6 +14,14 @@ import java.util.Optional;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     
+    // Find all enrollments with eagerly loaded student and course
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course")
+    List<Enrollment> findAllWithStudentAndCourse();
+    
+    // Find enrollment by ID with eagerly loaded student and course
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course WHERE e.id = :id")
+    Optional<Enrollment> findByIdWithStudentAndCourse(@Param("id") Long id);
+    
     // Find enrollments by student
     List<Enrollment> findByStudent(Student student);
     
@@ -21,24 +29,28 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     List<Enrollment> findByCourse(Course course);
     
     // Find enrollments by student ID
-    @Query("SELECT e FROM Enrollment e WHERE e.student.studentId = :studentId")
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course WHERE e.student.studentId = :studentId")
     List<Enrollment> findByStudentId(@Param("studentId") String studentId);
     
     // Find enrollments by course code
-    @Query("SELECT e FROM Enrollment e WHERE e.course.code = :courseCode")
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course WHERE e.course.code = :courseCode")
     List<Enrollment> findByCourseCode(@Param("courseCode") String courseCode);
     
     // Find enrollments by status
-    List<Enrollment> findByStatus(Enrollment.EnrollmentStatus status);
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course WHERE e.status = :status")
+    List<Enrollment> findByStatus(@Param("status") Enrollment.EnrollmentStatus status);
     
     // Find enrollments by semester
-    List<Enrollment> findBySemester(String semester);
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course WHERE e.semester = :semester")
+    List<Enrollment> findBySemester(@Param("semester") String semester);
     
     // Find enrollments by academic year
-    List<Enrollment> findByAcademicYear(String academicYear);
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course WHERE e.academicYear = :academicYear")
+    List<Enrollment> findByAcademicYear(@Param("academicYear") String academicYear);
     
     // Find enrollments by semester and academic year
-    List<Enrollment> findBySemesterAndAcademicYear(String semester, String academicYear);
+    @Query("SELECT e FROM Enrollment e JOIN FETCH e.student JOIN FETCH e.course WHERE e.semester = :semester AND e.academicYear = :academicYear")
+    List<Enrollment> findBySemesterAndAcademicYear(@Param("semester") String semester, @Param("academicYear") String academicYear);
     
     // Find specific enrollment by student and course
     Optional<Enrollment> findByStudentAndCourse(Student student, Course course);

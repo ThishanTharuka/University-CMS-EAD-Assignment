@@ -26,12 +26,12 @@ public class EnrollmentService {
     
     // Get all enrollments
     public List<Enrollment> getAllEnrollments() {
-        return enrollmentRepository.findAll();
+        return enrollmentRepository.findAllWithStudentAndCourse();
     }
     
     // Get enrollment by ID
     public Optional<Enrollment> getEnrollmentById(Long id) {
-        return enrollmentRepository.findById(id);
+        return enrollmentRepository.findByIdWithStudentAndCourse(id);
     }
     
     // Get enrollments by student ID
@@ -66,7 +66,7 @@ public class EnrollmentService {
     
     // Update enrollment status
     public Enrollment updateEnrollmentStatus(Long enrollmentId, Enrollment.EnrollmentStatus status) {
-        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
+        Enrollment enrollment = enrollmentRepository.findByIdWithStudentAndCourse(enrollmentId)
                 .orElseThrow(() -> new RuntimeException("Enrollment not found with id: " + enrollmentId));
         
         enrollment.setStatus(status);
@@ -75,7 +75,7 @@ public class EnrollmentService {
     
     // Update enrollment grade
     public Enrollment updateEnrollmentGrade(Long enrollmentId, String grade) {
-        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
+        Enrollment enrollment = enrollmentRepository.findByIdWithStudentAndCourse(enrollmentId)
                 .orElseThrow(() -> new RuntimeException("Enrollment not found with id: " + enrollmentId));
         
         enrollment.setGrade(grade);
@@ -89,7 +89,7 @@ public class EnrollmentService {
     
     // Delete an enrollment
     public void deleteEnrollment(Long id) {
-        Enrollment enrollment = enrollmentRepository.findById(id)
+        Enrollment enrollment = enrollmentRepository.findByIdWithStudentAndCourse(id)
                 .orElseThrow(() -> new RuntimeException("Enrollment not found with id: " + id));
         enrollmentRepository.delete(enrollment);
     }

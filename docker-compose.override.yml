@@ -1,0 +1,25 @@
+# Docker Compose override for development
+version: '3.8'
+
+services:
+  backend:
+    ports:
+      - "9090:9090"
+      - "5005:5005"  # Debug port
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker,debug
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    volumes:
+      - ./cms-backend/src:/app/src:ro  # Mount source for hot reload
+
+  frontend:
+    volumes:
+      - ./cms-frontend/src:/app/src:ro  # Mount source for development
+
+  mysql:
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_GENERAL_LOG=1
+    volumes:
+      - ./mysql-logs:/var/log/mysql

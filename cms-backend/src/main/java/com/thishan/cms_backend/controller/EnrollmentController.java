@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/enrollments")
-@CrossOrigin(origins = "http://localhost:4200") // Allow Angular frontend
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}) // Allow Angular frontend
 public class EnrollmentController {
     
     @Autowired

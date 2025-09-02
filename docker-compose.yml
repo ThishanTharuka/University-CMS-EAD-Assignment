@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # MySQL Database
   mysql:
     image: mysql:8.0
     container_name: university_cms_db
@@ -17,6 +18,59 @@ services:
     restart: unless-stopped
     networks:
       - cms_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+      interval: 30s
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+    container_name: university_cms_backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/university_cms?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: cms_user
+      SPRING_DATASOURCE_PASSWORD: cms_password
+    ports:
+      - "9090:9090"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cms_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/api/actuator/health"]
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+      interval: 30s
+
+  # Angular Frontend
+  frontend:
+    build:
+      context: ./cms-frontend
+      dockerfile: Dockerfile
+    container_name: university_cms_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cms_network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+      interval: 30s
 
 volumes:
   mysql_data:
