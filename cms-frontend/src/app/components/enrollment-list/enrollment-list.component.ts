@@ -91,24 +91,6 @@ export class EnrollmentListComponent implements OnInit {
     });
   }
 
-  viewEnrollmentDetails(enrollment: Enrollment): void {
-    // Display enrollment details in a dialog or snackbar
-    const details = `
-      Student: ${enrollment.student.firstName} ${enrollment.student.lastName} (${enrollment.student.studentId})
-      Course: ${enrollment.course.title} (${enrollment.course.code})
-      Semester: ${enrollment.semester || 'Not specified'}
-      Academic Year: ${enrollment.academicYear || 'Not specified'}
-      Enrolled: ${new Date(enrollment.enrollmentDate).toLocaleDateString()}
-      Grade: ${enrollment.grade || 'Not graded'}
-      Status: ${this.getStatusText(enrollment.grade)}
-    `;
-    
-    this.snackBar.open('Enrollment Details: ' + details.replace(/\n\s*/g, ' | '), 'Close', { 
-      duration: 8000,
-      panelClass: ['enrollment-details-snackbar']
-    });
-  }
-
   deleteEnrollment(id: number): void {
     const confirmed = confirm('Are you sure you want to delete this enrollment? This action cannot be undone.');
     
