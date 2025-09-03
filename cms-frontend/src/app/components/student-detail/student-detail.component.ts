@@ -127,18 +127,28 @@ export class StudentDetailComponent implements OnInit {
   getStatusClass(grade?: string): string {
     if (!grade) return 'pending';
     
-    const gradeNum = parseFloat(grade);
-    if (gradeNum >= 70) return 'passed';
-    if (gradeNum >= 40) return 'warning';
-    return 'failed';
+    const gradeUpper = grade.toUpperCase();
+    if (['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'].includes(gradeUpper)) {
+      return 'passed';
+    } else if (gradeUpper === 'D') {
+      return 'warning';
+    } else if (gradeUpper === 'F') {
+      return 'failed';
+    }
+    return 'pending';
   }
 
   getStatusText(grade?: string): string {
     if (!grade) return 'In Progress';
     
-    const gradeNum = parseFloat(grade);
-    if (gradeNum >= 70) return 'Passed';
-    if (gradeNum >= 40) return 'Warning';
-    return 'Failed';
+    const gradeUpper = grade.toUpperCase();
+    if (['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'].includes(gradeUpper)) {
+      return 'Passed';
+    } else if (gradeUpper === 'D') {
+      return 'Warning';
+    } else if (gradeUpper === 'F') {
+      return 'Failed';
+    }
+    return 'In Progress';
   }
 }

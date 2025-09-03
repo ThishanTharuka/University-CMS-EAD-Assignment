@@ -144,8 +144,24 @@ export class EnrollmentFormComponent implements OnInit {
       formData.academicYear
     ).subscribe({
       next: (result: Enrollment) => {
-        this.snackBar.open('Enrollment created successfully!', 'Close', { duration: 3000 });
-        this.dialogRef.close(result);
+        // If a grade was provided, update it after creation
+        if (formData.grade && formData.grade.trim() !== '') {
+          this.enrollmentService.updateEnrollmentGrade(result.id!, formData.grade).subscribe({
+            next: (updatedResult: Enrollment) => {
+              this.snackBar.open('Enrollment created with grade successfully!', 'Close', { duration: 3000 });
+              this.dialogRef.close(updatedResult);
+            },
+            error: (error: any) => {
+              console.error('Error updating grade after enrollment creation:', error);
+              // Still show success for enrollment creation but mention grade issue
+              this.snackBar.open('Enrollment created, but failed to set grade. You can update it manually.', 'Close', { duration: 5000 });
+              this.dialogRef.close(result);
+            }
+          });
+        } else {
+          this.snackBar.open('Enrollment created successfully!', 'Close', { duration: 3000 });
+          this.dialogRef.close(result);
+        }
       },
       error: (error: any) => {
         console.error('Error creating enrollment:', error);

@@ -97,7 +97,7 @@
                 <td class="semester-cell">{{ enrollment.semester }}</td>
                 <td class="year-cell">{{ enrollment.academicYear }}</td>
                 <td class="grade-cell">
-                  <span class="grade-value" *ngIf="enrollment.grade">{{ enrollment.grade }}%</span>
+                  <span class="grade-value" *ngIf="enrollment.grade">{{ enrollment.grade }}</span>
                   <span class="no-grade" *ngIf="!enrollment.grade">Not graded</span>
                 </td>
                 <td class="status-cell">

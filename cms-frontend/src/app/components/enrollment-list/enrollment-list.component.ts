@@ -5,8 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 import { EnrollmentService } from '../../services/enrollment.service';
 import { Enrollment } from '../../models/enrollment.model';
@@ -21,13 +24,19 @@ import { EnrollmentFormComponent } from '../enrollment-form/enrollment-form.comp
     MatIconModule, 
     MatCardModule,
     MatChipsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   templateUrl: './enrollment-list.component.html',
   styleUrl: './enrollment-list.component.scss'
 })
 export class EnrollmentListComponent implements OnInit {
   enrollments: Enrollment[] = [];
+  filteredEnrollments: Enrollment[] = [];
+  searchTerm: string = '';
   displayedColumns: string[] = ['id', 'studentName', 'courseName', 'enrollmentDate', 'grade', 'actions'];
 
   constructor(
@@ -44,6 +53,8 @@ export class EnrollmentListComponent implements OnInit {
     this.enrollmentService.getAllEnrollments().subscribe({
       next: (enrollments) => {
         this.enrollments = enrollments;
+        this.filteredEnrollments = enrollments;
+        this.applySearchFilter();
       },
       error: (error: any) => {
         console.error('Error loading enrollments:', error);
@@ -54,7 +65,7 @@ export class EnrollmentListComponent implements OnInit {
 
   openEnrollmentForm(): void {
     const dialogRef = this.dialog.open(EnrollmentFormComponent, {
-      width: '500px',
+      width: '600px',
       disableClose: true,
       data: { enrollment: null }
     });
@@ -68,7 +79,7 @@ export class EnrollmentListComponent implements OnInit {
 
   editEnrollmentGrade(enrollment: Enrollment): void {
     const dialogRef = this.dialog.open(EnrollmentFormComponent, {
-      width: '400px',
+      width: '500px',
       disableClose: true,
       data: { enrollment }
     });
@@ -80,8 +91,28 @@ export class EnrollmentListComponent implements OnInit {
     });
   }
 
+  viewEnrollmentDetails(enrollment: Enrollment): void {
+    // Display enrollment details in a dialog or snackbar
+    const details = `
+      Student: ${enrollment.student.firstName} ${enrollment.student.lastName} (${enrollment.student.studentId})
+      Course: ${enrollment.course.title} (${enrollment.course.code})
+      Semester: ${enrollment.semester || 'Not specified'}
+      Academic Year: ${enrollment.academicYear || 'Not specified'}
+      Enrolled: ${new Date(enrollment.enrollmentDate).toLocaleDateString()}
+      Grade: ${enrollment.grade || 'Not graded'}
+      Status: ${this.getStatusText(enrollment.grade)}
+    `;
+    
+    this.snackBar.open('Enrollment Details: ' + details.replace(/\n\s*/g, ' | '), 'Close', { 
+      duration: 8000,
+      panelClass: ['enrollment-details-snackbar']
+    });
+  }
+
   deleteEnrollment(id: number): void {
-    if (confirm('Are you sure you want to delete this enrollment?')) {
+    const confirmed = confirm('Are you sure you want to delete this enrollment? This action cannot be undone.');
+    
+    if (confirmed) {
       this.enrollmentService.deleteEnrollment(id).subscribe({
         next: () => {
           this.snackBar.open('Enrollment deleted successfully', 'Close', { duration: 3000 });
@@ -95,6 +126,105 @@ export class EnrollmentListComponent implements OnInit {
     }
   }
 
+  // Search functionality
+  onSearchChange(): void {
+    this.applySearchFilter();
+  }
+
+  applySearchFilter(): void {
+    if (!this.searchTerm || this.searchTerm.trim() === '') {
+      this.filteredEnrollments = [...this.enrollments];
+    } else {
+      const searchLower = this.searchTerm.toLowerCase().trim();
+      this.filteredEnrollments = this.enrollments.filter(enrollment => {
+        const studentName = `${enrollment.student.firstName} ${enrollment.student.lastName}`.toLowerCase();
+        const studentId = enrollment.student.studentId?.toLowerCase() || '';
+        const courseTitle = enrollment.course.title?.toLowerCase() || '';
+        const courseCode = enrollment.course.code?.toLowerCase() || '';
+        const semester = enrollment.semester?.toLowerCase() || '';
+        const academicYear = enrollment.academicYear?.toLowerCase() || '';
+        const grade = enrollment.grade?.toLowerCase() || '';
+
+        return studentName.includes(searchLower) ||
+               studentId.includes(searchLower) ||
+               courseTitle.includes(searchLower) ||
+               courseCode.includes(searchLower) ||
+               semester.includes(searchLower) ||
+               academicYear.includes(searchLower) ||
+               grade.includes(searchLower);
+      });
+    }
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.applySearchFilter();
+  }
+
+  // Statistics methods
+  getGradedCount(): number {
+    return this.filteredEnrollments.filter(enrollment => enrollment.grade && enrollment.grade.trim() !== '').length;
+  }
+
+  getPendingCount(): number {
+    return this.filteredEnrollments.filter(enrollment => !enrollment.grade || enrollment.grade.trim() === '').length;
+  }
+
+  // Grade styling methods
+  getGradeClass(grade: string): string {
+    if (!grade) return '';
+    
+    switch (grade.toUpperCase()) {
+      case 'A+':
+      case 'A':
+      case 'A-': 
+        return 'grade-excellent';
+      case 'B+':
+      case 'B':
+      case 'B-': 
+        return 'grade-good';
+      case 'C+':
+      case 'C':
+      case 'C-': 
+        return 'grade-average';
+      case 'D':
+        return 'grade-poor';
+      case 'F':
+        return 'grade-fail';
+      default: 
+        return 'grade-unknown';
+    }
+  }
+
+  getStatusClass(grade?: string): string {
+    if (!grade) return 'status-pending';
+    
+    const gradeUpper = grade.toUpperCase();
+    if (['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'].includes(gradeUpper)) {
+      return 'status-passed';
+    } else if (gradeUpper === 'D') {
+      return 'status-warning';
+    } else if (gradeUpper === 'F') {
+      return 'status-failed';
+    }
+    return 'status-pending';
+  }
+
+  getStatusText(grade?: string): string {
+    if (!grade) return 'In Progress';
+    
+    const gradeUpper = grade.toUpperCase();
+    if (['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'].includes(gradeUpper)) {
+      return 'Passed';
+    } else if (gradeUpper === 'D') {
+      return 'Warning';
+    } else if (gradeUpper === 'F') {
+      return 'Failed';
+    }
+    return 'In Progress';
+  }
+
+  // Legacy method for backward compatibility
   getGradeColor(grade: string): string {
     switch (grade?.toUpperCase()) {
       case 'A+':

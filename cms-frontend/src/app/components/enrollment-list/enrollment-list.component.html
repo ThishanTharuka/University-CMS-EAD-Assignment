@@ -1,96 +1,183 @@
-<div class="enrollment-list-container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Enrollment Management</mat-card-title>
+<div class="enrollment-page">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">school</mat-icon>
+          Enrollment Management
+        </h1>
+        <p class="page-subtitle">Manage student course enrollments and academic records</p>
+      </div>
       <div class="header-actions">
-        <button mat-raised-button color="primary" (click)="openEnrollmentForm()">
+        <button mat-raised-button color="primary" class="add-btn" (click)="openEnrollmentForm()">
           <mat-icon>add</mat-icon>
           New Enrollment
         </button>
       </div>
-    </mat-card-header>
-    
-    <mat-card-content>
-      <div class="table-container">
-        <table mat-table [dataSource]="enrollments" class="enrollments-table">
-          
-          <!-- ID Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let enrollment">{{ enrollment.id }}</td>
-          </ng-container>
+    </div>
+  </div>
 
-          <!-- Student Name Column -->
-          <ng-container matColumnDef="studentName">
-            <th mat-header-cell *matHeaderCellDef>Student</th>
-            <td mat-cell *matCellDef="let enrollment">
-              <div class="student-info">
-                <mat-icon class="student-icon">person</mat-icon>
-                {{ enrollment.student?.firstName }} {{ enrollment.student?.lastName }}
-              </div>
-            </td>
-          </ng-container>
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-container">
+      <mat-form-field class="search-field" appearance="outline">
+        <mat-label>Search enrollments...</mat-label>
+        <input matInput 
+               [(ngModel)]="searchTerm" 
+               (ngModelChange)="onSearchChange()"
+               placeholder="Search by student name, course, grade, etc.">
+        <mat-icon matPrefix>search</mat-icon>
+        <button *ngIf="searchTerm" 
+                matSuffix 
+                mat-icon-button 
+                aria-label="Clear search" 
+                (click)="clearSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
 
-          <!-- Course Name Column -->
-          <ng-container matColumnDef="courseName">
-            <th mat-header-cell *matHeaderCellDef>Course</th>
-            <td mat-cell *matCellDef="let enrollment">
-              <div class="course-info">
-                <span class="course-name">{{ enrollment.course?.name }}</span>
-                <span class="course-code">{{ enrollment.course?.code }}</span>
-              </div>
-            </td>
-          </ng-container>
+  <!-- Stats Section -->
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-content">
+        <mat-icon class="stat-icon">assignment</mat-icon>
+        <div class="stat-details">
+          <span class="stat-number">{{ filteredEnrollments.length }}</span>
+          <span class="stat-label">
+            {{ searchTerm ? 'Filtered' : 'Total' }} Enrollments
+            <span *ngIf="searchTerm" class="total-count">of {{ enrollments.length }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-content">
+        <mat-icon class="stat-icon">grade</mat-icon>
+        <div class="stat-details">
+          <span class="stat-number">{{ getGradedCount() }}</span>
+          <span class="stat-label">Graded</span>
+        </div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-content">
+        <mat-icon class="stat-icon">pending</mat-icon>
+        <div class="stat-details">
+          <span class="stat-number">{{ getPendingCount() }}</span>
+          <span class="stat-label">Pending Grades</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <!-- Enrollment Date Column -->
-          <ng-container matColumnDef="enrollmentDate">
-            <th mat-header-cell *matHeaderCellDef>Enrolled On</th>
-            <td mat-cell *matCellDef="let enrollment">
-              <mat-chip class="date-chip">{{ enrollment.enrollmentDate | date: 'shortDate' }}</mat-chip>
-            </td>
-          </ng-container>
-
-          <!-- Grade Column -->
-          <ng-container matColumnDef="grade">
-            <th mat-header-cell *matHeaderCellDef>Grade</th>
-            <td mat-cell *matCellDef="let enrollment">
-              <mat-chip 
-                *ngIf="enrollment.grade; else noGrade" 
-                [color]="getGradeColor(enrollment.grade)"
-                class="grade-chip">
-                {{ enrollment.grade }}
-              </mat-chip>
-              <ng-template #noGrade>
-                <span class="no-grade">Not Graded</span>
-              </ng-template>
-            </td>
-          </ng-container>
-
-          <!-- Actions Column -->
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let enrollment">
-              <button mat-icon-button color="primary" title="Edit Grade" (click)="editEnrollmentGrade(enrollment)">
-                <mat-icon>grade</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" title="View Details">
-                <mat-icon>visibility</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" title="Delete" (click)="deleteEnrollment(enrollment.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+  <!-- Enrollments Content -->
+  <div class="content-container">
+    <!-- Enrollments Table -->
+    <div class="table-section" *ngIf="filteredEnrollments.length > 0">
+      <div class="table-header">
+        <h3 class="table-title">
+          {{ searchTerm ? 'Search Results' : 'All Enrollments' }}
+        </h3>
+        <span class="table-count">{{ filteredEnrollments.length }} records</span>
       </div>
       
-      <div *ngIf="enrollments.length === 0" class="no-data">
-        <mat-icon>assignment</mat-icon>
-        <p>No enrollments found. Create an enrollment to get started.</p>
+      <div class="table-container">
+        <div class="table-wrapper">
+          <table class="enrollments-table">
+            <thead>
+              <tr class="table-header-row">
+                <th class="student-header">STUDENT</th>
+                <th class="course-header">COURSE</th>
+                <th class="semester-header">SEMESTER</th>
+                <th class="year-header">ACADEMIC YEAR</th>
+                <th class="date-header">ENROLLED</th>
+                <th class="grade-header">GRADE</th>
+                <th class="status-header">STATUS</th>
+                <th class="actions-header">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-row" *ngFor="let enrollment of filteredEnrollments">
+                <td class="student-cell">
+                  <div class="student-info">
+                    <div class="student-avatar">
+                      <mat-icon>person</mat-icon>
+                    </div>
+                    <div class="student-details">
+                      <span class="student-name">{{ enrollment.student.firstName }} {{ enrollment.student.lastName }}</span>
+                      <span class="student-id">{{ enrollment.student.studentId }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="course-cell">
+                  <div class="course-info">
+                    <span class="course-title">{{ enrollment.course.title }}</span>
+                    <span class="course-code">{{ enrollment.course.code }}</span>
+                  </div>
+                </td>
+                <td class="semester-cell">{{ enrollment.semester || 'Not specified' }}</td>
+                <td class="year-cell">{{ enrollment.academicYear || 'Not specified' }}</td>
+                <td class="date-cell">
+                  <span class="date-value">{{ enrollment.enrollmentDate | date: 'MMM dd, yyyy' }}</span>
+                </td>
+                <td class="grade-cell">
+                  <span class="grade-badge" *ngIf="enrollment.grade; else noGrade" 
+                        [ngClass]="getGradeClass(enrollment.grade)">
+                    {{ enrollment.grade }}
+                  </span>
+                  <ng-template #noGrade>
+                    <span class="no-grade">Not graded</span>
+                  </ng-template>
+                </td>
+                <td class="status-cell">
+                  <span class="status-badge" [ngClass]="getStatusClass(enrollment.grade)">
+                    {{ getStatusText(enrollment.grade) }}
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <div class="action-buttons">
+                    <button mat-icon-button class="action-btn" title="Edit Grade" (click)="editEnrollmentGrade(enrollment)">
+                      <mat-icon>grade</mat-icon>
+                    </button>
+                    <button mat-icon-button class="action-btn" title="View Details" (click)="viewEnrollmentDetails(enrollment)">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button class="action-btn danger" title="Delete" (click)="deleteEnrollment(enrollment.id!)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredEnrollments.length === 0" class="empty-state">
+      <div class="empty-content">
+        <mat-icon class="empty-icon">{{ searchTerm ? 'search_off' : 'assignment' }}</mat-icon>
+        <h3 class="empty-title">
+          {{ searchTerm ? 'No Search Results' : 'No Enrollments Found' }}
+        </h3>
+        <p class="empty-description">
+          <span *ngIf="searchTerm; else noEnrollmentsText">
+            No enrollments match your search criteria. Try adjusting your search terms or 
+            <button mat-button color="primary" (click)="clearSearch()" class="inline-btn">clear the search</button>.
+          </span>
+          <ng-template #noEnrollmentsText>
+            Get started by creating your first enrollment to track student course registrations and academic progress.
+          </ng-template>
+        </p>
+        <button *ngIf="!searchTerm" mat-raised-button color="primary" class="empty-action" (click)="openEnrollmentForm()">
+          <mat-icon>add</mat-icon>
+          Create First Enrollment
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
