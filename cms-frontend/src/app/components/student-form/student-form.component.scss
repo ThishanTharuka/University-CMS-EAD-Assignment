@@ -1,6 +1,32 @@
+// Dialog container fixes
+:host {
+  display: block;
+  
+  // Ensure dialog has proper spacing
+  .mat-mdc-dialog-container {
+    .mdc-dialog__surface {
+      border-radius: 12px !important;
+      overflow: visible !important;
+    }
+  }
+}
+
+// Dialog header styling - FIX FOR TEXT CLIPPING
+h2[mat-dialog-title] {
+  margin: 0 !important;
+  padding: 20px 24px 16px 24px !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  line-height: 1.4 !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #e5e7eb;
+}
+
 mat-dialog-content {
   min-width: 500px;
   max-width: 600px;
+  padding: 24px !important;
   
   .full-width {
     width: 100%;
@@ -18,15 +44,45 @@ mat-dialog-content {
   }
   
   mat-form-field {
+    width: 100%;
+    
+    .mat-mdc-form-field-wrapper {
+      min-height: 56px;
+    }
+    
+    .mat-mdc-form-field-flex {
+      min-height: 56px;
+      align-items: center;
+    }
+    
+    .mat-mdc-form-field-infix {
+      min-height: 56px;
+      padding: 16px 0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .mat-mdc-form-field-outline {
+      border-radius: 8px;
+    }
+    
     mat-label {
       color: #1976d2;
     }
     
     &.mat-focused {
-      .mat-form-field-outline-thick {
-        color: #1976d2;
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: #1976d2;
+        border-width: 2px;
       }
     }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 80px;
   }
 }
 

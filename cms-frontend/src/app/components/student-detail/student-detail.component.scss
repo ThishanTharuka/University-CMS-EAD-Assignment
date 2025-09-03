@@ -1,0 +1,504 @@
+.student-detail-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  padding: 32px;
+
+  .page-header {
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    color: white;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
+    max-width: 1200px;
+    margin: 0 auto 24px auto;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+
+      .back-section {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex: 1;
+
+        .back-btn {
+          color: white;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+          }
+
+          mat-icon {
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        .page-title {
+          font-size: 28px;
+          font-weight: 600;
+          margin: 0;
+          letter-spacing: -0.02em;
+        }
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 12px;
+        flex-shrink: 0;
+
+        .action-btn {
+          background: rgba(255, 255, 255, 0.15);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          padding: 12px 20px;
+          border-radius: 8px;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          text-transform: none;
+          backdrop-filter: blur(10px);
+          cursor: pointer;
+          position: relative;
+          z-index: 1;
+          pointer-events: auto;
+
+          mat-icon {
+            margin-right: 8px;
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+          }
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+          }
+
+          &.delete-btn:hover {
+            background: rgba(244, 67, 54, 0.8);
+            border-color: rgba(244, 67, 54, 0.9);
+          }
+        }
+      }
+    }
+  }
+
+  .content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .info-cards {
+      margin-bottom: 32px;
+
+      .info-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 32px;
+
+        .card-header {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 24px;
+
+          mat-icon {
+            color: #1976d2;
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+          }
+
+          h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+            letter-spacing: -0.02em;
+          }
+        }
+
+        .card-content {
+          .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+
+            .info-item {
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+
+              .label {
+                font-size: 13px;
+                font-weight: 500;
+                color: #6b7280;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+              }
+
+              .value {
+                font-size: 16px;
+                font-weight: 500;
+                color: #1f2937;
+
+                &.student-id {
+                  font-family: 'JetBrains Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+                  background: rgba(59, 130, 246, 0.1);
+                  color: #3b82f6;
+                  padding: 8px 12px;
+                  border-radius: 6px;
+                  display: inline-block;
+                }
+
+                &.email-link a {
+                  color: #1976d2;
+                  text-decoration: none;
+                  transition: color 0.2s ease;
+
+                  &:hover {
+                    color: #1565c0;
+                    text-decoration: underline;
+                  }
+                }
+
+                &.year-badge {
+                  background: rgba(76, 175, 80, 0.1);
+                  color: #4caf50;
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                  display: inline-block;
+                  font-size: 14px;
+                  font-weight: 500;
+                }
+
+                &.not-specified {
+                  color: #9ca3af;
+                  font-style: italic;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .enrollments-section {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 32px;
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+
+        mat-icon {
+          color: #1976d2;
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+          margin-right: 12px;
+        }
+
+        h3 {
+          font-size: 20px;
+          font-weight: 600;
+          color: #1f2937;
+          margin: 0;
+          letter-spacing: -0.02em;
+          flex: 1;
+        }
+
+        .enrollment-count {
+          color: #6b7280;
+          font-size: 14px;
+          font-weight: 500;
+          background: #f3f4f6;
+          padding: 6px 12px;
+          border-radius: 6px;
+          margin-left: auto;
+        }
+      }
+
+      .enrollments-table-container {
+        border-radius: 8px;
+        border: 1px solid #f3f4f6;
+        overflow: hidden;
+
+        .table-wrapper {
+          overflow-x: auto;
+
+          .enrollments-table {
+            width: 100%;
+            border-collapse: collapse;
+
+            .table-header {
+              background: #f9fafb;
+
+              th {
+                padding: 16px;
+                text-align: left;
+                font-weight: 500;
+                font-size: 12px;
+                color: #6b7280;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                border-bottom: 1px solid #f3f4f6;
+              }
+            }
+
+            .table-row {
+              transition: background-color 0.15s ease;
+
+              &:hover {
+                background: #f9fafb;
+              }
+
+              td {
+                padding: 16px;
+                border-bottom: 1px solid #f3f4f6;
+                vertical-align: middle;
+
+                &.course-cell {
+                  .course-info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+
+                    .course-title {
+                      font-weight: 500;
+                      color: #1f2937;
+                      font-size: 14px;
+                    }
+
+                    .course-code {
+                      font-size: 12px;
+                      color: #6b7280;
+                      font-family: 'JetBrains Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+                    }
+                  }
+                }
+
+                &.semester-cell, &.year-cell {
+                  color: #6b7280;
+                  font-weight: 500;
+                  font-size: 13px;
+                }
+
+                &.grade-cell {
+                  .grade-value {
+                    font-weight: 600;
+                    color: #1f2937;
+                    font-size: 14px;
+                  }
+
+                  .no-grade {
+                    color: #9ca3af;
+                    font-style: italic;
+                    font-size: 13px;
+                  }
+                }
+
+                &.status-cell {
+                  .status-badge {
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+
+                    &.passed {
+                      background: rgba(16, 185, 129, 0.1);
+                      color: #10b981;
+                    }
+
+                    &.warning {
+                      background: rgba(245, 158, 11, 0.1);
+                      color: #f59e0b;
+                    }
+
+                    &.failed {
+                      background: rgba(239, 68, 68, 0.1);
+                      color: #ef4444;
+                    }
+
+                    &.pending {
+                      background: rgba(107, 114, 128, 0.1);
+                      color: #6b7280;
+                    }
+                  }
+                }
+              }
+
+              &:last-child td {
+                border-bottom: none;
+              }
+            }
+          }
+        }
+      }
+
+      .no-enrollments {
+        text-align: center;
+        padding: 60px 32px;
+        color: #6b7280;
+
+        mat-icon {
+          font-size: 64px;
+          width: 64px;
+          height: 64px;
+          color: #e5e7eb;
+          margin-bottom: 24px;
+        }
+
+        h4 {
+          font-size: 18px;
+          font-weight: 600;
+          color: #374151;
+          margin: 0 0 8px 0;
+          letter-spacing: -0.02em;
+        }
+
+        p {
+          font-size: 14px;
+          color: #6b7280;
+          margin: 0;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  color: #6b7280;
+
+  mat-spinner {
+    margin-bottom: 24px;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .student-detail-page {
+    padding: 16px;
+    
+    .page-header {
+      padding: 20px;
+
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+
+        .back-section {
+          width: 100%;
+
+          .page-title {
+            font-size: 24px;
+          }
+        }
+
+        .header-actions {
+          width: 100%;
+          justify-content: flex-start;
+
+          .action-btn {
+            flex: 1;
+            justify-content: center;
+          }
+        }
+      }
+    }
+
+    .content-container {
+      .info-cards .info-card,
+      .enrollments-section {
+        padding: 20px;
+
+        .info-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+      }
+
+      .enrollments-section {
+        .enrollments-table-container .table-wrapper {
+          overflow-x: auto;
+
+          .enrollments-table {
+            min-width: 600px;
+
+            .table-header th {
+              padding: 12px 8px;
+              font-size: 11px;
+            }
+
+            .table-row td {
+              padding: 12px 8px;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Global icon alignment fixes similar to course detail
+::ng-deep {
+  .mat-mdc-icon-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    .mat-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin: auto !important;
+    }
+  }
+  
+  .mat-mdc-raised-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    
+    .mat-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+  }
+}

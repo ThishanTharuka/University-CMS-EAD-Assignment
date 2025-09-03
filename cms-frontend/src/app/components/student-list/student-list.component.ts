@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +17,7 @@ import { StudentFormComponent } from '../student-form/student-form.component';
   selector: 'app-student-list',
   imports: [
     CommonModule,
+    FormsModule,
     MatTableModule, 
     MatButtonModule, 
     MatIconModule, 
@@ -28,12 +31,15 @@ import { StudentFormComponent } from '../student-form/student-form.component';
 })
 export class StudentListComponent implements OnInit {
   students: Student[] = [];
+  filteredStudents: Student[] = [];
+  searchTerm: string = '';
   displayedColumns: string[] = ['id', 'studentId', 'firstName', 'lastName', 'email', 'department', 'yearOfStudy', 'actions'];
 
   constructor(
     private readonly studentService: StudentService,
     private readonly dialog: MatDialog,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -44,12 +50,29 @@ export class StudentListComponent implements OnInit {
     this.studentService.getAllStudents().subscribe({
       next: (students) => {
         this.students = students;
+        this.filteredStudents = students;
       },
       error: (error) => {
         console.error('Error loading students:', error);
         this.snackBar.open('Error loading students', 'Close', { duration: 3000 });
       }
     });
+  }
+
+  onSearch(): void {
+    if (!this.searchTerm.trim()) {
+      this.filteredStudents = this.students;
+      return;
+    }
+
+    const searchLower = this.searchTerm.toLowerCase();
+    this.filteredStudents = this.students.filter(student =>
+      student.firstName.toLowerCase().includes(searchLower) ||
+      student.lastName.toLowerCase().includes(searchLower) ||
+      student.email.toLowerCase().includes(searchLower) ||
+      student.studentId.toLowerCase().includes(searchLower) ||
+      student.department?.toLowerCase().includes(searchLower)
+    );
   }
 
   openStudentForm(student?: Student): void {
@@ -63,6 +86,10 @@ export class StudentListComponent implements OnInit {
         this.loadStudents();
       }
     });
+  }
+
+  viewStudent(student: Student): void {
+    this.router.navigate(['/students', student.id]);
   }
 
   editStudent(student: Student): void {

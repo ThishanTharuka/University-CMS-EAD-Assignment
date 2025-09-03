@@ -64,14 +64,33 @@ export class StudentFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.data?.student) {
       this.isEditMode = true;
-      this.studentForm.patchValue(this.data.student);
+      // Convert yearOfStudy number to string for the select component
+      const studentData = { ...this.data.student };
+      if (studentData.yearOfStudy) {
+        (studentData as any).yearOfStudy = studentData.yearOfStudy.toString();
+      }
+      this.studentForm.patchValue(studentData);
+      
+      // Disable student ID editing in edit mode
+      this.studentForm.get('studentId')?.disable();
     }
   }
 
   onSubmit(): void {
     if (this.studentForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
-      const studentData = this.studentForm.value;
+      const formValue = this.studentForm.value;
+      
+      // Prepare student data with proper type conversion
+      const studentData = {
+        ...formValue,
+        yearOfStudy: formValue.yearOfStudy ? parseInt(formValue.yearOfStudy, 10) : undefined
+      };
+
+      // Include studentId for update operations since it might be disabled
+      if (this.isEditMode && this.data.student?.studentId) {
+        studentData.studentId = this.data.student.studentId;
+      }
 
       const operation = this.isEditMode && this.data.student?.id
         ? this.studentService.updateStudent(this.data.student.id, studentData)
