@@ -1,132 +1,235 @@
-<div class="dashboard-container">
-  <div class="dashboard-header">
-    <h1>University CMS Dashboard</h1>
-    <p class="subtitle">Welcome to the Course Management System</p>
+<div class="dashboard-page">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">dashboard</mat-icon>
+          University CMS Dashboard
+        </h1>
+        <p class="page-subtitle">Comprehensive overview of your course management system</p>
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button 
+                color="primary" 
+                class="quick-add-btn"
+                [matMenuTriggerFor]="quickAddMenu">
+          <mat-icon>add_circle</mat-icon>
+          Quick Add
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        
+        <mat-menu #quickAddMenu="matMenu" class="quick-add-menu">
+          <button mat-menu-item (click)="openQuickAddCourse()">
+            <mat-icon>school</mat-icon>
+            <span>Add Course</span>
+          </button>
+          <button mat-menu-item (click)="openQuickAddStudent()">
+            <mat-icon>person_add</mat-icon>
+            <span>Add Student</span>
+          </button>
+          <button mat-menu-item (click)="openQuickAddEnrollment()">
+            <mat-icon>assignment_ind</mat-icon>
+            <span>Add Enrollment</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
   </div>
-  
-  <mat-grid-list cols="3" rowHeight="250px" gutterSize="20px" class="stats-grid">
+
+  <!-- Stats Overview Section -->
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-content">
+        <mat-icon class="stat-icon courses-icon">school</mat-icon>
+        <div class="stat-details">
+          <span class="stat-number">{{ totalCourses }}</span>
+          <span class="stat-label">Total Courses</span>
+          <span class="stat-description">Active courses available</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill courses-progress" [style.width.%]="courseProgress"></div>
+          </div>
+          <span class="progress-text">{{ courseProgress }}% capacity</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-content">
+        <mat-icon class="stat-icon students-icon">people</mat-icon>
+        <div class="stat-details">
+          <span class="stat-number">{{ totalStudents }}</span>
+          <span class="stat-label">Total Students</span>
+          <span class="stat-description">Registered students</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill students-progress" [style.width.%]="studentProgress"></div>
+          </div>
+          <span class="progress-text">{{ studentProgress }}% enrolled</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-content">
+        <mat-icon class="stat-icon enrollments-icon">assignment</mat-icon>
+        <div class="stat-details">
+          <span class="stat-number">{{ totalEnrollments }}</span>
+          <span class="stat-label">Total Enrollments</span>
+          <span class="stat-description">Active enrollments</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill enrollments-progress" [style.width.%]="enrollmentProgress"></div>
+          </div>
+          <span class="progress-text">{{ enrollmentProgress }}% complete</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-content">
+        <mat-icon class="stat-icon success-icon">grade</mat-icon>
+        <div class="stat-details">
+          <span class="stat-number">{{ getSuccessfulEnrollments() }}</span>
+          <span class="stat-label">Successful</span>
+          <span class="stat-description">Passed grades</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill success-progress" [style.width.%]="getSuccessRate()"></div>
+          </div>
+          <span class="progress-text">{{ getSuccessRate() }}% success rate</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Container -->
+  <div class="content-container">
     
-    <!-- Courses Card -->
-    <mat-grid-tile>
-      <mat-card class="dashboard-card courses-card">
-        <mat-card-header>
-          <div mat-card-avatar class="card-avatar courses-avatar">
+    <!-- Quick Actions Section -->
+    <div class="quick-actions-section">
+      <div class="section-header">
+        <h3 class="section-title">
+          <mat-icon>flash_on</mat-icon>
+          Quick Actions
+        </h3>
+        <p class="section-subtitle">Frequently used management actions</p>
+      </div>
+      
+      <div class="actions-grid">
+        <div class="action-card" routerLink="/courses">
+          <div class="action-icon courses-action">
             <mat-icon>school</mat-icon>
           </div>
-          <mat-card-title>Total Courses</mat-card-title>
-          <mat-card-subtitle>Active courses in the system</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="stat-number">{{ totalCourses }}</div>
-          <div class="stat-progress">
-            <mat-progress-bar mode="determinate" [value]="courseProgress" color="primary"></mat-progress-bar>
-            <span class="progress-text">{{ courseProgress }}% capacity</span>
+          <div class="action-details">
+            <h4 class="action-title">Manage Courses</h4>
+            <p class="action-description">View and manage course catalog</p>
           </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button color="primary" routerLink="/courses">
-            <mat-icon>visibility</mat-icon>
-            View Courses
-          </button>
-          <button mat-button color="primary">
-            <mat-icon>add</mat-icon>
-            Add Course
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </div>
 
-    <!-- Students Card -->
-    <mat-grid-tile>
-      <mat-card class="dashboard-card students-card">
-        <mat-card-header>
-          <div mat-card-avatar class="card-avatar students-avatar">
+        <div class="action-card" routerLink="/students">
+          <div class="action-icon students-action">
             <mat-icon>people</mat-icon>
           </div>
-          <mat-card-title>Total Students</mat-card-title>
-          <mat-card-subtitle>Registered students</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="stat-number">{{ totalStudents }}</div>
-          <div class="stat-progress">
-            <mat-progress-bar mode="determinate" [value]="studentProgress" color="accent"></mat-progress-bar>
-            <span class="progress-text">{{ studentProgress }}% enrolled</span>
+          <div class="action-details">
+            <h4 class="action-title">Manage Students</h4>
+            <p class="action-description">View and manage student records</p>
           </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button color="accent" routerLink="/students">
-            <mat-icon>visibility</mat-icon>
-            View Students
-          </button>
-          <button mat-button color="accent">
-            <mat-icon>person_add</mat-icon>
-            Add Student
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </div>
 
-    <!-- Enrollments Card -->
-    <mat-grid-tile>
-      <mat-card class="dashboard-card enrollments-card">
-        <mat-card-header>
-          <div mat-card-avatar class="card-avatar enrollments-avatar">
+        <div class="action-card" routerLink="/enrollments">
+          <div class="action-icon enrollments-action">
             <mat-icon>assignment</mat-icon>
           </div>
-          <mat-card-title>Total Enrollments</mat-card-title>
-          <mat-card-subtitle>Active enrollments</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="stat-number">{{ totalEnrollments }}</div>
-          <div class="stat-progress">
-            <mat-progress-bar mode="determinate" [value]="enrollmentProgress" color="warn"></mat-progress-bar>
-            <span class="progress-text">{{ enrollmentProgress }}% complete</span>
+          <div class="action-details">
+            <h4 class="action-title">View Enrollments</h4>
+            <p class="action-description">Track student course enrollments</p>
           </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button color="warn" routerLink="/enrollments">
-            <mat-icon>visibility</mat-icon>
-            View Enrollments
-          </button>
-          <button mat-button color="warn">
-            <mat-icon>add</mat-icon>
-            New Enrollment
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-
-  </mat-grid-list>
-
-  <!-- Quick Actions Section -->
-  <mat-card class="quick-actions-card">
-    <mat-card-header>
-      <mat-card-title>
-        <mat-icon>flash_on</mat-icon>
-        Quick Actions
-      </mat-card-title>
-      <mat-card-subtitle>Frequently used actions</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="quick-actions-grid">
-        <button mat-raised-button color="primary" routerLink="/courses" class="quick-action-btn">
-          <mat-icon>school</mat-icon>
-          <span>Manage Courses</span>
-        </button>
-        <button mat-raised-button color="accent" routerLink="/students" class="quick-action-btn">
-          <mat-icon>people</mat-icon>
-          <span>Manage Students</span>
-        </button>
-        <button mat-raised-button color="primary" routerLink="/enrollments" class="quick-action-btn">
-          <mat-icon>assignment</mat-icon>
-          <span>View Enrollments</span>
-        </button>
-        <button mat-raised-button class="quick-action-btn">
-          <mat-icon>analytics</mat-icon>
-          <span>Reports</span>
-        </button>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
 
+    <!-- Recent Activity Section -->
+    <div class="recent-activity-section">
+      <div class="section-header">
+        <h3 class="section-title">
+          <mat-icon>history</mat-icon>
+          System Overview
+        </h3>
+        <p class="section-subtitle">Latest insights and statistics</p>
+      </div>
+      
+      <div class="activity-grid">
+        <div class="activity-card">
+          <div class="activity-header">
+            <mat-icon class="activity-icon">trending_up</mat-icon>
+            <span class="activity-title">Enrollment Trends</span>
+          </div>
+          <div class="activity-content">
+            <div class="trend-item">
+              <span class="trend-label">This Month</span>
+              <span class="trend-value positive">+{{ getThisMonthGrowth() }}</span>
+            </div>
+            <div class="trend-item">
+              <span class="trend-label">Last Month</span>
+              <span class="trend-value">{{ getLastMonthTotal() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-card">
+          <div class="activity-header">
+            <mat-icon class="activity-icon">school</mat-icon>
+            <span class="activity-title">Course Performance</span>
+          </div>
+          <div class="activity-content">
+            <div class="performance-item">
+              <span class="performance-label">Most Popular</span>
+              <span class="performance-badge popular">Computer Science</span>
+            </div>
+            <div class="performance-item">
+              <span class="performance-label">Highest Success</span>
+              <span class="performance-badge success">Mathematics</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-card">
+          <div class="activity-header">
+            <mat-icon class="activity-icon">assignment_turned_in</mat-icon>
+            <span class="activity-title">Grade Distribution</span>
+          </div>
+          <div class="activity-content">
+            <div class="grade-distribution">
+              <div class="grade-item">
+                <span class="grade-letter excellent">A</span>
+                <span class="grade-count">{{ getGradeCount(0.25) }}</span>
+              </div>
+              <div class="grade-item">
+                <span class="grade-letter good">B</span>
+                <span class="grade-count">{{ getGradeCount(0.35) }}</span>
+              </div>
+              <div class="grade-item">
+                <span class="grade-letter average">C</span>
+                <span class="grade-count">{{ getGradeCount(0.25) }}</span>
+              </div>
+              <div class="grade-item">
+                <span class="grade-letter poor">D+</span>
+                <span class="grade-count">{{ getGradeCount(0.15) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
