@@ -1,66 +1,69 @@
 # University Course Management System - Architecture
 
 ## System Overview
+
 A modern enterprise-level web application for managing university courses, student registrations, and academic results using Spring Boot backend and Angular with Material UI frontend.
 
 ## Architecture Diagram
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                          Client Layer                          │
+│                          Client Layer                           │
 ├─────────────────────────────────────────────────────────────────┤
-│  Angular 17+ with Material UI                                  │
-│  ├── Components (Course List, Student Management, etc.)        │
-│  ├── Services (HTTP Client, State Management)                  │
-│  ├── Guards (Authentication, Authorization)                    │
-│  └── Models (TypeScript Interfaces)                           │
+│  Angular 17+ with Material UI                                   │
+│  ├── Components (Course List, Student Management, etc.)         │
+│  ├── Services (HTTP Client, State Management)                   │
+│  ├── Guards (Authentication, Authorization)                     │
+│  └── Models (TypeScript Interfaces)                             │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 │ HTTP/REST API
                                 │
 ┌─────────────────────────────────────────────────────────────────┐
-│                        API Gateway Layer                       │
+│                        API Gateway Layer                        │
 ├─────────────────────────────────────────────────────────────────┤
-│  Spring Boot 3.x REST Controllers                              │
-│  ├── CourseController (/api/courses)                          │
-│  ├── StudentController (/api/students)                        │
-│  ├── RegistrationController (/api/registrations)              │
-│  └── ResultController (/api/results)                          │
+│  Spring Boot 3.x REST Controllers                               │
+│  ├── CourseController (/api/courses)                            │
+│  ├── StudentController (/api/students)                          │
+│  ├── RegistrationController (/api/registrations)                │
+│  └── ResultController (/api/results)                            │
 └─────────────────────────────────────────────────────────────────┘
                                 │
 ┌─────────────────────────────────────────────────────────────────┐
-│                        Service Layer                           │
+│                        Service Layer                            │
 ├─────────────────────────────────────────────────────────────────┤
-│  Business Logic Services                                       │
-│  ├── CourseService                                            │
-│  ├── StudentService                                           │
-│  ├── RegistrationService                                      │
-│  └── ResultService                                            │
+│  Business Logic Services                                        │
+│  ├── CourseService                                              │
+│  ├── StudentService                                             │
+│  ├── RegistrationService                                        │
+│  └── ResultService                                              │
 └─────────────────────────────────────────────────────────────────┘
                                 │
 ┌─────────────────────────────────────────────────────────────────┐
-│                      Repository Layer                          │
+│                      Repository Layer                           │
 ├─────────────────────────────────────────────────────────────────┤
-│  Spring Data JPA Repositories                                  │
-│  ├── CourseRepository                                         │
-│  ├── StudentRepository                                        │
-│  ├── RegistrationRepository                                   │
-│  └── ResultRepository                                         │
+│  Spring Data JPA Repositories                                   │
+│  ├── CourseRepository                                           │
+│  ├── StudentRepository                                          │
+│  ├── RegistrationRepository                                     │
+│  └── ResultRepository                                           │
 └─────────────────────────────────────────────────────────────────┘
                                 │
 ┌─────────────────────────────────────────────────────────────────┐
-│                        Data Layer                              │
+│                        Data Layer                               │
 ├─────────────────────────────────────────────────────────────────┤
-│  MySQL Database                                                │
-│  ├── courses table                                            │
-│  ├── students table                                           │
-│  ├── course_registrations table                               │
-│  └── results table                                            │
+│  MySQL Database                                                 │
+│  ├── courses table                                              │
+│  ├── students table                                             │
+│  ├── course_registrations table                                 │
+│  └── results table                                              │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ## Technology Stack
 
 ### Backend
+
 - **Framework**: Spring Boot 3.x
 - **Language**: Java 17
 - **Database**: MySQL 8.x
@@ -70,6 +73,7 @@ A modern enterprise-level web application for managing university courses, stude
 - **API**: RESTful Web Services (JSON)
 
 ### Frontend
+
 - **Framework**: Angular 17+
 - **UI Library**: Angular Material
 - **Language**: TypeScript
@@ -78,6 +82,7 @@ A modern enterprise-level web application for managing university courses, stude
 - **State Management**: Angular Services (or NgRx for complex state)
 
 ### DevOps & Deployment
+
 - **Containerization**: Docker
 - **Database**: MySQL Docker Container
 - **Deployment**: Railway/Render/Heroku
@@ -182,6 +187,7 @@ src/main/java/com/thishan/cmsbackend/
 ## API Endpoints
 
 ### Course Management
+
 - `GET /api/courses` - Get all courses
 - `GET /api/courses/{id}` - Get course by ID
 - `POST /api/courses` - Create new course
@@ -189,6 +195,7 @@ src/main/java/com/thishan/cmsbackend/
 - `DELETE /api/courses/{id}` - Delete course
 
 ### Student Management
+
 - `GET /api/students` - Get all students
 - `GET /api/students/{id}` - Get student by ID
 - `POST /api/students` - Create new student
@@ -196,6 +203,7 @@ src/main/java/com/thishan/cmsbackend/
 - `DELETE /api/students/{id}` - Delete student
 
 ### Registration Management
+
 - `GET /api/registrations` - Get all registrations
 - `GET /api/registrations/student/{studentId}` - Get registrations by student
 - `GET /api/registrations/course/{courseId}` - Get registrations by course
@@ -203,6 +211,7 @@ src/main/java/com/thishan/cmsbackend/
 - `DELETE /api/registrations/{id}` - Cancel registration
 
 ### Results Management
+
 - `GET /api/results` - Get all results
 - `GET /api/results/student/{studentId}` - Get results by student
 - `GET /api/results/course/{courseId}` - Get results by course
@@ -212,6 +221,7 @@ src/main/java/com/thishan/cmsbackend/
 ## Features to Implement
 
 ### Core Features
+
 1. **Course Management**
    - CRUD operations for courses
    - Search and filter courses
@@ -232,6 +242,7 @@ src/main/java/com/thishan/cmsbackend/
    - Grade statistics
 
 ### Additional Features
+
 5. **Dashboard**
    - Overview statistics
    - Recent activities
@@ -243,12 +254,14 @@ src/main/java/com/thishan/cmsbackend/
    - Grade distribution reports
 
 ## Security Considerations
+
 - Input validation and sanitization
 - SQL injection prevention (JPA handles this)
 - CORS configuration for frontend integration
 - Error handling and logging
 
 ## Performance Considerations
+
 - Database indexing on frequently queried fields
 - Pagination for large datasets
 - Caching for frequently accessed data
