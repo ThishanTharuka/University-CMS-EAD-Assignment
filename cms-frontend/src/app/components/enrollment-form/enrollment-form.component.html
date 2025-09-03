@@ -10,7 +10,6 @@
         <mat-option value="">Select Student</mat-option>
         <mat-option *ngFor="let student of students" [value]="student.studentId">
           <div class="student-option">
-            <mat-icon>person</mat-icon>
             <span>{{ student.firstName }} {{ student.lastName }}</span>
             <small>({{ student.studentId }})</small>
           </div>
@@ -28,7 +27,6 @@
         <mat-option value="">Select Course</mat-option>
         <mat-option *ngFor="let course of courses" [value]="course.code">
           <div class="course-option">
-            <mat-icon>school</mat-icon>
             <span>{{ course.title }}</span>
             <mat-chip class="course-code-chip">{{ course.code }}</mat-chip>
           </div>

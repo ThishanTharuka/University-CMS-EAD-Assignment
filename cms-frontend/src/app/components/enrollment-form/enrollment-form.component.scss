@@ -1,6 +1,32 @@
+// Form field styling
 .full-width {
   width: 100%;
   margin-bottom: 16px;
+  
+  // Special handling for select fields
+  &.mat-mdc-form-field {
+    .mat-mdc-select {
+      min-height: 40px;
+    }
+    
+    .mat-mdc-form-field-infix {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .mat-mdc-form-field-label {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: all 0.2s ease;
+    }
+    
+    &.mat-form-field-should-float .mat-mdc-form-field-label {
+      top: 0;
+      transform: translateY(-50%) scale(0.75);
+    }
+  }
 }
 
 .form-row {
@@ -17,32 +43,107 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 8px 0;
+  width: 100%;
   
-  mat-icon {
-    color: var(--mdc-theme-primary);
-    font-size: 18px;
+  span {
+    flex: 1;
+    font-weight: 500;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   small {
-    color: #666;
-    font-size: 11px;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: auto;
+    padding-left: 8px;
+    flex-shrink: 0;
   }
 }
 
-.course-code-chip {
-  font-size: 10px !important;
-  height: 20px !important;
-  line-height: 20px !important;
-  padding: 0 6px !important;
-  margin-left: auto;
-  background-color: var(--mdc-theme-primary) !important;
-  color: white !important;
+// Global Material Select option styling
+::ng-deep .mat-mdc-select-panel {
+  .mat-mdc-option {
+    .student-option, .course-option {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 8px 0 !important;
+      width: 100% !important;
+      
+      span {
+        flex: 1 !important;
+        font-weight: 500 !important;
+        color: #1f2937 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      
+      small {
+        color: #6b7280 !important;
+        font-size: 12px !important;
+        font-weight: 400 !important;
+        margin-left: auto !important;
+        padding-left: 8px !important;
+        flex-shrink: 0 !important;
+      }
+    }
+    
+    .course-option {
+      mat-chip {
+        font-size: 10px !important;
+        height: 20px !important;
+        line-height: 20px !important;
+        padding: 0 6px !important;
+        margin-left: auto !important;
+        background-color: var(--mdc-theme-primary) !important;
+        color: white !important;
+        flex-shrink: 0 !important;
+      }
+    }
+  }
+}
+
+// Dialog container fixes
+:host {
+  display: block;
+  
+  // Ensure dialog has proper spacing
+  .mat-mdc-dialog-container {
+    .mdc-dialog__surface {
+      border-radius: 12px !important;
+      overflow: visible !important;
+    }
+  }
+}
+
+// Dialog header styling
+h2[mat-dialog-title] {
+  margin: 0 !important;
+  padding: 20px 24px 16px 24px !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  line-height: 1.4 !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 mat-dialog-content {
   min-width: 400px;
   max-height: 70vh;
   overflow-y: auto;
+  padding: 24px !important;
+  
+  // Ensure form fields have proper top spacing
+  .full-width:first-child {
+    margin-top: 0;
+  }
 }
 
 mat-dialog-actions {
@@ -63,8 +164,37 @@ mat-dialog-actions {
 
 // Material Design enhancements
 mat-form-field {
+  width: 100%;
+  
+  .mat-mdc-form-field-wrapper {
+    min-height: 40px;
+  }
+  
+  .mat-mdc-form-field-flex {
+    min-height: 40px;
+    align-items: center;
+  }
+  
+  .mat-mdc-form-field-infix {
+    min-height: 40px;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+  }
+  
   .mat-mdc-form-field-outline {
-    border-radius: 8px;
+    border-radius: 6px;
+  }
+  
+  // Ensure labels have proper spacing and aren't cut off
+  .mat-mdc-form-field-label {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+  
+  .mat-mdc-form-field-label-wrapper {
+    padding-top: 0 !important;
+    overflow: visible !important;
   }
   
   &.mat-focused {
@@ -74,6 +204,28 @@ mat-form-field {
       border-color: var(--mdc-theme-primary);
       border-width: 2px;
     }
+  }
+  
+  // Fix for select dropdown label positioning
+  &.mat-mdc-form-field-has-icon-prefix .mat-mdc-form-field-label {
+    left: 0 !important;
+  }
+  
+  // Ensure select fields have consistent height
+  .mat-mdc-select {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .mat-mdc-select-trigger {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .mat-mdc-select-value {
+    line-height: 40px;
   }
 }
 
@@ -86,5 +238,15 @@ mat-form-field {
   
   mat-dialog-content {
     min-width: 300px;
+  }
+}
+
+// Global error snackbar styling
+::ng-deep .error-snackbar {
+  .mat-mdc-snack-bar-container {
+    .mdc-snackbar__surface {
+      background-color: #dc2626 !important;
+      color: white !important;
+    }
   }
 }

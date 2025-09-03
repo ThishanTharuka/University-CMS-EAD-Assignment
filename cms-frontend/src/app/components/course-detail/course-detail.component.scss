@@ -1,0 +1,475 @@
+.course-detail-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  // Global Material Icon alignment fixes
+  .mat-mdc-icon-button {
+    mat-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      line-height: 1 !important;
+    }
+  }
+  
+  .mat-mdc-raised-button, .mat-mdc-button {
+    mat-icon {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      vertical-align: middle !important;
+      line-height: 1 !important;
+    }
+  }
+}
+
+// Loading and Error States
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  
+  p {
+    margin-top: 16px;
+    color: #666;
+    font-size: 16px;
+  }
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  
+  .error-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #f44336;
+    margin-bottom: 16px;
+  }
+  
+  h2 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  p {
+    margin: 0 0 24px 0;
+    color: #666;
+    font-size: 16px;
+  }
+}
+
+// Header Section
+.page-header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 20px 32px 32px 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  
+  // Fix for Material Icon alignment in all buttons
+  .mat-mdc-icon-button {
+    mat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1 !important;
+    }
+  }
+  
+  .mat-mdc-raised-button {
+    mat-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      line-height: 1 !important;
+    }
+  }
+  
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    
+    .back-button {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    
+    .back-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+}
+
+.course-info {
+  flex: 1;
+  
+  .course-title-section {
+    .course-title {
+      margin: 0 0 12px 0;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    
+    .course-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      
+      span {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        
+        &.course-code {
+          background: rgba(255, 255, 255, 0.2);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+  .header-actions {
+    display: flex;
+    gap: 12px;
+    
+    @media (max-width: 768px) {
+      justify-content: stretch;
+      
+      .action-btn {
+        flex: 1;
+      }
+    }
+    
+    .action-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 12px 20px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-1px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &:focus {
+        outline: 2px solid rgba(255, 255, 255, 0.4);
+        outline-offset: 2px;
+      }
+      
+      mat-icon {
+        margin-right: 8px;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1 !important;
+        vertical-align: middle;
+      }
+    }
+  }// Card Styles
+.description-card,
+.enrolled-students-card {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  
+  mat-card-header {
+    background: #f8fafc;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    
+    mat-card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0;
+    }
+    
+    mat-card-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+      margin: 4px 0 0 0;
+    }
+  }
+  
+  mat-card-content {
+    padding: 24px;
+  }
+}
+
+// Course Description
+.course-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #374151;
+  margin: 0 0 20px 0;
+}
+
+.no-description {
+  font-size: 16px;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0 0 20px 0;
+}
+
+.course-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    strong {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    span {
+      font-size: 16px;
+      color: #1f2937;
+      font-weight: 500;
+    }
+  }
+}
+
+// No Enrollments State
+.no-enrollments {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  
+  .no-data-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+  
+  p {
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+// Students Table
+.students-table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.students-table {
+  width: 100%;
+  background: white;
+  
+  .table-header {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 16px 20px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  
+  .table-cell {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .table-row {
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: #f9fafb;
+    }
+    
+    &:last-child .table-cell {
+      border-bottom: none;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .course-detail-container {
+    padding: 16px;
+  }
+  
+  .page-header {
+    padding: 16px 20px 24px 20px;
+    
+    .header-top {
+      margin-bottom: 16px;
+      
+      .back-text {
+        font-size: 13px;
+      }
+    }
+    
+    .course-title {
+      font-size: 24px !important;
+    }
+    
+    .course-meta {
+      gap: 8px !important;
+      
+      span {
+        font-size: 12px !important;
+        padding: 4px 8px !important;
+      }
+    }
+  }
+  
+  .description-card,
+  .enrolled-students-card {
+    mat-card-header {
+      padding: 16px 20px;
+    }
+    
+    mat-card-content {
+      padding: 20px;
+    }
+  }
+  
+  .course-details-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .students-table {
+    .table-header,
+    .table-cell {
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .course-detail-container {
+    padding: 12px;
+  }
+  
+  .page-header {
+    padding: 12px 16px 20px 16px;
+    
+    .header-top {
+      margin-bottom: 12px;
+      
+      .back-button {
+        mat-icon {
+          font-size: 18px;
+        }
+      }
+      
+      .back-text {
+        font-size: 12px;
+      }
+    }
+    
+    .header-actions {
+      .action-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+        
+        mat-icon {
+          margin-right: 6px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  
+  .students-table {
+    .table-header,
+    .table-cell {
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+  }
+}

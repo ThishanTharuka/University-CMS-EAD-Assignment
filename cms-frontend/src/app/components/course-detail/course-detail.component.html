@@ -1,0 +1,135 @@
+<div class="course-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    <p>Loading course details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <mat-icon class="error-icon">error</mat-icon>
+    <h2>Error</h2>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Courses
+    </button>
+  </div>
+
+  <!-- Course Content -->
+  <div *ngIf="course && !loading" class="course-content">
+    <!-- Header Section -->
+    <div class="page-header">
+      <!-- Back Navigation -->
+      <div class="header-top">
+        <button mat-icon-button (click)="onBack()" class="back-button">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span class="back-text">Back to Courses</span>
+      </div>
+      
+      <!-- Main Header Content -->
+      <div class="header-content">
+        <div class="course-info">
+          <div class="course-title-section">
+            <h1 class="course-title">{{ course.title }}</h1>
+            <div class="course-meta">
+              <span class="course-code">{{ course.code }}</span>
+              <span class="course-credits">{{ course.credits }} Credits</span>
+              <span *ngIf="course.department" class="course-department">{{ course.department }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button mat-raised-button color="primary" (click)="onEditCourse()" class="action-btn" type="button">
+            <mat-icon>edit</mat-icon>
+            Edit Course
+          </button>
+          <button mat-raised-button color="accent" (click)="onManageEnrollment()" class="action-btn" type="button">
+            <mat-icon>group_add</mat-icon>
+            Manage Enrollment
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course Description Section -->
+    <mat-card class="description-card">
+      <mat-card-header>
+        <mat-card-title>Course Description</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p *ngIf="course.description" class="course-description">{{ course.description }}</p>
+        <p *ngIf="!course.description" class="no-description">No description available for this course.</p>
+        
+        <div class="course-details-grid">
+          <div class="detail-item" *ngIf="course.semester">
+            <strong>Semester:</strong>
+            <span>{{ course.semester }}</span>
+          </div>
+          <div class="detail-item" *ngIf="course.credits">
+            <strong>Credits:</strong>
+            <span>{{ course.credits }}</span>
+          </div>
+          <div class="detail-item" *ngIf="course.department">
+            <strong>Department:</strong>
+            <span>{{ course.department }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Enrolled Students Section -->
+    <mat-card class="enrolled-students-card">
+      <mat-card-header>
+        <mat-card-title>Enrolled Students</mat-card-title>
+        <mat-card-subtitle>{{ enrollments.length }} student(s) enrolled</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="enrollments.length === 0" class="no-enrollments">
+          <mat-icon class="no-data-icon">school</mat-icon>
+          <p>No students are currently enrolled in this course.</p>
+        </div>
+
+        <div *ngIf="enrollments.length > 0" class="students-table-container">
+          <table mat-table [dataSource]="enrollments" class="students-table">
+            <!-- Student ID Column -->
+            <ng-container matColumnDef="studentId">
+              <th mat-header-cell *matHeaderCellDef class="table-header">Student ID</th>
+              <td mat-cell *matCellDef="let enrollment" class="table-cell">
+                {{ enrollment.student.studentId }}
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef class="table-header">Name</th>
+              <td mat-cell *matCellDef="let enrollment" class="table-cell">
+                {{ getStudentFullName(enrollment) }}
+              </td>
+            </ng-container>
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef class="table-header">Email</th>
+              <td mat-cell *matCellDef="let enrollment" class="table-cell">
+                {{ enrollment.student.email }}
+              </td>
+            </ng-container>
+
+            <!-- Major/Department Column -->
+            <ng-container matColumnDef="major">
+              <th mat-header-cell *matHeaderCellDef class="table-header">Major</th>
+              <td mat-cell *matCellDef="let enrollment" class="table-cell">
+                {{ enrollment.student.department || 'Not specified' }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

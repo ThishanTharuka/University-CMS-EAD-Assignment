@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { Course } from '../../models/course.model';
 import { CourseFormComponent } from '../course-form/course-form.component';
@@ -14,6 +16,7 @@ import { CourseFormComponent } from '../course-form/course-form.component';
   selector: 'app-course-list',
   imports: [
     CommonModule,
+    FormsModule,
     MatTableModule, 
     MatButtonModule, 
     MatIconModule, 
@@ -26,12 +29,15 @@ import { CourseFormComponent } from '../course-form/course-form.component';
 })
 export class CourseListComponent implements OnInit {
   courses: Course[] = [];
+  filteredCourses: Course[] = [];
+  searchTerm: string = '';
   displayedColumns: string[] = ['id', 'title', 'code', 'description', 'credits', 'department', 'actions'];
 
   constructor(
     private readonly courseService: CourseService,
     private readonly dialog: MatDialog,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,12 +48,33 @@ export class CourseListComponent implements OnInit {
     this.courseService.getAllCourses().subscribe({
       next: (courses) => {
         this.courses = courses;
+        this.filteredCourses = courses;
       },
       error: (error) => {
         console.error('Error loading courses:', error);
         this.snackBar.open('Error loading courses', 'Close', { duration: 3000 });
       }
     });
+  }
+
+  onSearch(): void {
+    if (!this.searchTerm.trim()) {
+      this.filteredCourses = this.courses;
+    } else {
+      const searchTermLower = this.searchTerm.toLowerCase();
+      this.filteredCourses = this.courses.filter(course =>
+        course.title.toLowerCase().includes(searchTermLower) ||
+        course.code.toLowerCase().includes(searchTermLower) ||
+        (course.description && course.description.toLowerCase().includes(searchTermLower)) ||
+        (course.department && course.department.toLowerCase().includes(searchTermLower))
+      );
+    }
+  }
+
+  viewCourse(course: Course): void {
+    if (course.id) {
+      this.router.navigate(['/courses', course.id]);
+    }
   }
 
   openCourseForm(course?: Course): void {

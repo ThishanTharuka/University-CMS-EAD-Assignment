@@ -109,6 +109,53 @@ export class EnrollmentFormComponent implements OnInit {
     });
   }
 
+  private checkDuplicateEnrollment(studentId: string, courseCode: string): void {
+    this.enrollmentService.getEnrollmentsByCourse(courseCode).subscribe({
+      next: (existingEnrollments: Enrollment[]) => {
+        const isDuplicate = existingEnrollments.some(enrollment => 
+          enrollment.student?.studentId === studentId
+        );
+        
+        if (isDuplicate) {
+          this.snackBar.open('Student is already enrolled in this course', 'Close', { 
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+          this.isSubmitting = false;
+        } else {
+          this.proceedWithEnrollment();
+        }
+      },
+      error: (error: any) => {
+        console.error('Error checking existing enrollments:', error);
+        // If we can't check for duplicates, proceed anyway (let backend handle it)
+        this.proceedWithEnrollment();
+      }
+    });
+  }
+
+  private proceedWithEnrollment(): void {
+    const formData = this.enrollmentForm.value;
+    
+    this.enrollmentService.createEnrollment(
+      formData.studentId,
+      formData.courseCode,
+      formData.semester,
+      formData.academicYear
+    ).subscribe({
+      next: (result: Enrollment) => {
+        this.snackBar.open('Enrollment created successfully!', 'Close', { duration: 3000 });
+        this.dialogRef.close(result);
+      },
+      error: (error: any) => {
+        console.error('Error creating enrollment:', error);
+        const errorMessage = error.error?.message || 'Error creating enrollment';
+        this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
+        this.isSubmitting = false;
+      }
+    });
+  }
+
   onSubmit(): void {
     if (this.enrollmentForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
@@ -129,23 +176,8 @@ export class EnrollmentFormComponent implements OnInit {
           }
         });
       } else {
-        // For create mode, use the proper service method signature
-        this.enrollmentService.createEnrollment(
-          formData.studentId,
-          formData.courseCode,
-          formData.semester,
-          formData.academicYear
-        ).subscribe({
-          next: (result: Enrollment) => {
-            this.snackBar.open('Enrollment created successfully!', 'Close', { duration: 3000 });
-            this.dialogRef.close(result);
-          },
-          error: (error: any) => {
-            console.error('Error creating enrollment:', error);
-            this.snackBar.open('Error creating enrollment', 'Close', { duration: 3000 });
-            this.isSubmitting = false;
-          }
-        });
+        // For create mode, check for duplicates first
+        this.checkDuplicateEnrollment(formData.studentId, formData.courseCode);
       }
     }
   }

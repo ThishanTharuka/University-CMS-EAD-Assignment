@@ -1,225 +1,331 @@
-.course-list-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  
-  mat-card {
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    background: white;
-    overflow: hidden;
-    
-    mat-card-header {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      padding: 24px;
-      border-bottom: 1px solid #e0e0e0;
+.course-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 32px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .add-course-btn {
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-weight: 500;
+      font-size: 14px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      
-      mat-card-title {
-        color: #1976d2;
-        font-weight: 500;
-        font-size: 24px;
-        margin: 0;
-        letter-spacing: 0.25px;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(25, 118, 210, 0.2);
+      text-transform: none;
+      letter-spacing: -0.01em;
+
+      &:hover {
+        background: #1565c0;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
       }
-      
-      .header-actions {
-        button {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 24px;
-          border-radius: 8px;
-          font-weight: 500;
-          text-transform: none;
-          box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
-          transition: all 0.3s ease;
-          
-          &:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(25, 118, 210, 0.4);
+      }
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .search-section {
+    margin-bottom: 24px;
+
+    .search-container {
+      position: relative;
+      max-width: 400px;
+
+      .search-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 16px 12px 48px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #374151;
+        background: white;
+        transition: all 0.2s ease;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+        &:focus {
+          outline: none;
+          border-color: #1976d2;
+          box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        &::placeholder {
+          color: #9ca3af;
+        }
+      }
+    }
+  }
+
+  .courses-table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .table-wrapper {
+      overflow-x: auto;
+
+      .courses-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+
+        .table-header {
+          background: #f9fafb;
+
+          th {
+            padding: 16px 24px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid #f3f4f6;
+
+            &.course-title-header {
+              min-width: 300px;
+            }
+
+            &.course-code-header {
+              min-width: 120px;
+            }
+
+            &.actions-header {
+              min-width: 200px;
+              text-align: right;
+            }
           }
-          
-          mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
+        }
+
+        .table-row {
+          transition: background-color 0.15s ease;
+
+          &:hover {
+            background: #f9fafb;
+          }
+
+          td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+
+            &.course-title-cell {
+              font-weight: 500;
+              color: #111827;
+              font-size: 14px;
+            }
+
+            &.course-code-cell {
+              color: #6b7280;
+              font-weight: 500;
+              font-size: 13px;
+            }
+
+            &.actions-cell {
+              text-align: right;
+
+              .action-btn {
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-size: 13px;
+                font-weight: 500;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin-left: 8px;
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+                text-transform: none;
+                letter-spacing: -0.01em;
+
+                &.view-btn {
+                  background: #f9fafb;
+                  color: #6b7280;
+                  border: 1px solid #e5e7eb;
+
+                  &:hover {
+                    background: #f3f4f6;
+                    color: #374151;
+                    border-color: #d1d5db;
+                  }
+                }
+
+                &.edit-btn {
+                  background: rgba(25, 118, 210, 0.08);
+                  color: #1976d2;
+                  border: 1px solid rgba(25, 118, 210, 0.2);
+
+                  &:hover {
+                    background: rgba(25, 118, 210, 0.12);
+                    border-color: rgba(25, 118, 210, 0.3);
+                  }
+                }
+              }
+            }
+          }
+
+          &:last-child td {
+            border-bottom: none;
           }
         }
       }
     }
-    
-    mat-card-content {
-      padding: 0;
-      
-      .table-container {
-        overflow-x: auto;
-        
-        .courses-table {
-          width: 100%;
-          background: white;
-          
-          .course-code {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1976d2;
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: inline-block;
-            min-width: 60px;
-            text-align: center;
-          }
-          
-          .description-text {
-            max-width: 250px;
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: #666;
-            font-size: 14px;
-            line-height: 1.4;
-          }
-          
-          th {
-            background: #fafafa;
-            font-weight: 600;
-            color: #333;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 16px;
-            border-bottom: 2px solid #e0e0e0;
-          }
-          
-          td {
-            padding: 16px;
-            border-bottom: 1px solid #f0f0f0;
-            vertical-align: middle;
-            
-            &:first-child {
-              font-weight: 600;
-              color: #1976d2;
-              font-size: 14px;
-            }
-          }
-          
-          tr {
-            transition: background-color 0.2s ease;
-            
-            &:hover {
-              background-color: #f8f9fa;
-            }
-            
-            &:last-child td {
-              border-bottom: none;
-            }
-          }
-          
-          // Action buttons
-          .mat-mdc-icon-button {
-            width: 36px;
-            height: 36px;
-            margin: 0 4px;
-            
-            &.mat-primary {
-              background: rgba(25, 118, 210, 0.1);
-              color: #1976d2;
-              
-              &:hover {
-                background: rgba(25, 118, 210, 0.2);
-              }
-            }
-            
-            &.mat-warn {
-              background: rgba(244, 67, 54, 0.1);
-              color: #f44336;
-              
-              &:hover {
-                background: rgba(244, 67, 54, 0.2);
-              }
-            }
-            
-            mat-icon {
-              font-size: 18px;
-              width: 18px;
-              height: 18px;
-            }
-          }
-        }
+
+    .no-results {
+      text-align: center;
+      padding: 80px 32px;
+      color: #6b7280;
+
+      mat-icon {
+        font-size: 64px;
+        width: 64px;
+        height: 64px;
+        color: #e5e7eb;
+        margin-bottom: 24px;
       }
-      
-      .no-data {
-        text-align: center;
-        padding: 64px 32px;
-        color: #666;
-        background: #fafafa;
-        
-        mat-icon {
-          font-size: 64px;
-          width: 64px;
-          height: 64px;
-          color: #ddd;
-          margin-bottom: 24px;
-        }
-        
-        p {
-          margin: 0;
-          font-size: 16px;
-          font-weight: 400;
+
+      h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #374151;
+        margin: 0 0 12px 0;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        font-size: 16px;
+        color: #6b7280;
+        margin: 0;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .course-page {
+    padding: 16px;
+
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .add-course-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .search-section {
+      .search-container {
+        max-width: 100%;
+      }
+    }
+
+    .courses-table-container {
+      border-radius: 8px;
+
+      .table-wrapper {
+        .courses-table {
+          font-size: 13px;
+
+          .table-header th {
+            padding: 12px 16px;
+            font-size: 11px;
+          }
+
+          .table-row td {
+            padding: 12px 16px;
+
+            &.actions-cell {
+              .action-btn {
+                padding: 4px 8px;
+                font-size: 11px;
+                margin-left: 4px;
+              }
+            }
+          }
         }
       }
     }
   }
 }
 
-@media (max-width: 768px) {
-  .course-list-container {
-    mat-card {
-      margin: 16px;
-      border-radius: 8px;
-      
-      mat-card-header {
-        padding: 16px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        
-        mat-card-title {
-          font-size: 20px;
-        }
-        
-        .header-actions {
-          width: 100%;
-          
-          button {
-            width: 100%;
-            justify-content: center;
-            padding: 14px 24px;
-          }
-        }
-      }
-      
-      .table-container {
+@media (max-width: 480px) {
+  .course-page {
+    .courses-table-container {
+      .table-wrapper {
         .courses-table {
-          font-size: 13px;
-          
-          th, td {
-            padding: 12px 8px;
+          .table-header {
+            th {
+              &.course-title-header {
+                min-width: 200px;
+              }
+              &.course-code-header {
+                min-width: 80px;
+              }
+              &.actions-header {
+                min-width: 140px;
+              }
+            }
           }
-          
-          .description-text {
-            max-width: 150px;
-            font-size: 12px;
-          }
-          
-          .course-code {
-            font-size: 10px;
-            padding: 4px 8px;
+
+          .table-row {
+            td {
+              &.actions-cell {
+                .action-btn {
+                  display: block;
+                  width: 100%;
+                  margin: 2px 0;
+                  margin-left: 0;
+                }
+              }
+            }
           }
         }
       }
