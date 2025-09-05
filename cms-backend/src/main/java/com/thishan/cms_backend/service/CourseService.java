@@ -43,18 +43,29 @@ public class CourseService {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
         
-        // Check if the new code conflicts with existing course (excluding current course)
-        if (!course.getCode().equals(courseDetails.getCode()) && 
-            courseRepository.existsByCode(courseDetails.getCode())) {
-            throw new RuntimeException("Course with code " + courseDetails.getCode() + " already exists");
+        // Update code only if provided and unique
+        if (courseDetails.getCode() != null && !course.getCode().equals(courseDetails.getCode())) {
+            if (courseRepository.existsByCode(courseDetails.getCode())) {
+                throw new RuntimeException("Course with code " + courseDetails.getCode() + " already exists");
+            }
+            course.setCode(courseDetails.getCode());
         }
-        
-        course.setCode(courseDetails.getCode());
-        course.setTitle(courseDetails.getTitle());
-        course.setDescription(courseDetails.getDescription());
-        course.setCredits(courseDetails.getCredits());
-        course.setSemester(courseDetails.getSemester());
-        course.setDepartment(courseDetails.getDepartment());
+
+        if (courseDetails.getTitle() != null) {
+            course.setTitle(courseDetails.getTitle());
+        }
+        if (courseDetails.getDescription() != null) {
+            course.setDescription(courseDetails.getDescription());
+        }
+        if (courseDetails.getCredits() != null) {
+            course.setCredits(courseDetails.getCredits());
+        }
+        if (courseDetails.getSemester() != null) {
+            course.setSemester(courseDetails.getSemester());
+        }
+        if (courseDetails.getDepartment() != null) {
+            course.setDepartment(courseDetails.getDepartment());
+        }
         
         return courseRepository.save(course);
     }
