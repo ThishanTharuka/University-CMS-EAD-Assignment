@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/students")
-@CrossOrigin(origins = "http://localhost:4200") // Allow Angular frontend
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}) // Allow Angular and Docker frontends
 public class StudentController {
     
     @Autowired

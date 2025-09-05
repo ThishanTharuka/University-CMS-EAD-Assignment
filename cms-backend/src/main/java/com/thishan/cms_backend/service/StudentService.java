@@ -54,25 +54,39 @@ public class StudentService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
         
-        // Check if the new student ID conflicts with existing student (excluding current student)
-        if (!student.getStudentId().equals(studentDetails.getStudentId()) && 
-            studentRepository.existsByStudentId(studentDetails.getStudentId())) {
-            throw new RuntimeException("Student with ID " + studentDetails.getStudentId() + " already exists");
+        // Update student ID if provided and unique
+        if (studentDetails.getStudentId() != null &&
+                !student.getStudentId().equals(studentDetails.getStudentId())) {
+            if (studentRepository.existsByStudentId(studentDetails.getStudentId())) {
+                throw new RuntimeException("Student with ID " + studentDetails.getStudentId() + " already exists");
+            }
+            student.setStudentId(studentDetails.getStudentId());
         }
-        
-        // Check if the new email conflicts with existing student (excluding current student)
-        if (!student.getEmail().equals(studentDetails.getEmail()) && 
-            studentRepository.existsByEmail(studentDetails.getEmail())) {
-            throw new RuntimeException("Student with email " + studentDetails.getEmail() + " already exists");
+
+        // Update email if provided and unique
+        if (studentDetails.getEmail() != null &&
+                !student.getEmail().equals(studentDetails.getEmail())) {
+            if (studentRepository.existsByEmail(studentDetails.getEmail())) {
+                throw new RuntimeException("Student with email " + studentDetails.getEmail() + " already exists");
+            }
+            student.setEmail(studentDetails.getEmail());
         }
-        
-        student.setStudentId(studentDetails.getStudentId());
-        student.setFirstName(studentDetails.getFirstName());
-        student.setLastName(studentDetails.getLastName());
-        student.setEmail(studentDetails.getEmail());
-        student.setPhone(studentDetails.getPhone());
-        student.setDepartment(studentDetails.getDepartment());
-        student.setYearOfStudy(studentDetails.getYearOfStudy());
+
+        if (studentDetails.getFirstName() != null) {
+            student.setFirstName(studentDetails.getFirstName());
+        }
+        if (studentDetails.getLastName() != null) {
+            student.setLastName(studentDetails.getLastName());
+        }
+        if (studentDetails.getPhone() != null) {
+            student.setPhone(studentDetails.getPhone());
+        }
+        if (studentDetails.getDepartment() != null) {
+            student.setDepartment(studentDetails.getDepartment());
+        }
+        if (studentDetails.getYearOfStudy() != null) {
+            student.setYearOfStudy(studentDetails.getYearOfStudy());
+        }
         
         return studentRepository.save(student);
     }
